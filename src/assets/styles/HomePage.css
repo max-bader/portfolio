@@ -1,0 +1,10 @@
+.home-page {
+  /* Main container styles for the homepage */
+  min-height: 100vh;
+}
+
+/* Ensure proper spacing between sections */
+.home-page > * {
+  margin: 0;
+  padding: 0;
+} 
