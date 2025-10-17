@@ -10,7 +10,7 @@ const Hero = () => {
             <span className="highlight">Max Bader</span>
           </h1>
           <h2 className="hero-subtitle">
-            Aspiring Software Engineer
+            Software Developer
           </h2>
           <p className="hero-description">
             I'm a passionate and dedicated software engineer with a strong foundation in computer science and an interest in intelligent systems.   
