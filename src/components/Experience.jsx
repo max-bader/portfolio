@@ -12,10 +12,10 @@ const Experience = () => {
             <div className="experience-card">
               <div className="experience-header">
                 <h3>Software & AI Developer</h3>
-                <span className="experience-date">2025 - Present</span>
+                <span className="experience-date">5/25 - Present</span>
               </div>
               <div className="experience-company">
-                <h4>Boundary Remote Sensing Systems</h4>
+                <h4>Boundary Remote Subsurface Solutions</h4>
                 
               </div>
               <div className="experience-description">
@@ -34,6 +34,31 @@ const Experience = () => {
                   <span className="skill-item">Hugging Face</span>
                   <span className="skill-item">scikit-learn</span>
                   <span className="skill-item">Geospatial Technologies</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Current Work */}
+            <div className="experience-card">
+              <div className="experience-header">
+                <h3>Software Engineer Intern</h3>
+                <span className="experience-date">10/25 - Present</span>
+              </div>
+              <div className="experience-company">
+                <h4>YesMedia</h4>
+              </div>
+              <div className="experience-description">
+                <p>
+                Working on frontend development for YesMedia's website, where I'm playing a pivotal role in the design, development, and deployment of the company's flagship website. My primary focus is on implementing a user-centric and responsive interface that catered to a diverse audience.
+                </p>
+              </div>
+              <div className="research-skills">
+                <h5>Technologies:</h5>
+                <div className="skills-list">
+                  <span className="skill-item">React</span>
+                  <span className="skill-item">TypeScript</span>
+                  <span className="skill-item">Tailwind CSS</span>
+                  <span className="skill-item">Next.js</span>
                 </div>
               </div>
             </div>
@@ -65,20 +90,6 @@ const Experience = () => {
                   <span className="skill-item">Dataset Creation</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Paper Display */}
-          <div className="paper-section">
-            <h3>Research Publications</h3>
-            <div className="paper-card">
-              <div className="paper-info">
-                <h4>CoVeGAT: A Hybrid LLM & Graph Attention Pipeline for Accurate Citation Aligned Claim Verification</h4>
-                
-                <p className="paper-abstract">
-                  To quantify LLM fabrication, we built a 1,000-sample Citation-Alignment Dataset and proposed CoVeGAT, an NLP/Graph ML pipeline for citation verification. Our evaluation of top LLMs revealed a trade-off in accuracy, while a simple MiniLM + RBF kernel baseline achieved a superior 96.4% accuracy, demonstrating the effectiveness of interpretable methods.
-                </p>
-              </div>
               <div className="paper-actions">
                 <a 
                   href="/CoVeGAT (6).pdf" 
@@ -86,7 +97,6 @@ const Experience = () => {
                   rel="noopener noreferrer"
                   className="btn btn-primary"
                 >
-                  <i className="fas fa-file-pdf"></i>
                   View Paper
                 </a>
                 <a 
@@ -94,12 +104,13 @@ const Experience = () => {
                   download
                   className="btn btn-secondary"
                 >
-                  <i className="fas fa-download"></i>
                   Download PDF
                 </a>
               </div>
             </div>
           </div>
+
+          
         </div>
       </div>
     </section>

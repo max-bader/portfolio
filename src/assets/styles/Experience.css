@@ -13,7 +13,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 2rem;
-  justify-items: center;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+/* Center the final card (AI Research) when it stands alone on a row */
+.experience-grid .experience-card:last-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 800px;
 }
 
 .experience-card {
@@ -24,15 +32,15 @@
   border: 1px solid var(--border-color);
   transition: var(--transition);
   width: 100%;
-  max-width: 500px;
+  max-width: none;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .experience-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: var(--primary-color);
 }
 
 .experience-header {
@@ -131,100 +139,12 @@
 }
 
 /* Paper Section */
-.paper-section {
-  margin-top: 0.25rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.paper-section h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  text-align: center;
-  background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.paper-card {
-  background-color: var(--background-secondary);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
-  transition: var(--transition);
-  width: 100%;
-  max-width: 800px;
-  margin-bottom: 0;
-}
-
-.paper-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-color);
-}
-
-.paper-info {
-  margin-bottom: 2rem;
-}
-
-.paper-info h4 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.paper-authors-list {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.paper-authors-label {
-  display: block;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-  text-align: center;
-}
-
-.paper-authors-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
-}
-
-.paper-author {
-  color: var(--text-secondary);
-  font-size: 0.98em;
-  background: rgba(255,255,255,0.03);
-  padding: 0.1em 0.5em;
-  border-radius: 12px;
-  margin-bottom: 0.1em;
-  white-space: nowrap;
-}
-
-.paper-conference {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-}
-
-.paper-abstract {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-top: 1rem;
-}
-
 .paper-actions {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .paper-actions .btn {
