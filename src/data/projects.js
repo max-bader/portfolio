@@ -19,12 +19,11 @@ export const projectsData = [
   },
   {
     id: 3,
-    title: "blank",
-    description: "fill in",
-    image: null,
-    technologies: [],
-    liveUrl: "https://your-weather-app.com",
-    githubUrl: "https://github.com/yourusername/weather-app",
+    title: "WakeUp",
+    description: "An AI-powered alarm clock that learns your sleep patterns and wakes you up at the optimal time.",
+    image: "wakeup.png",
+    technologies: ["Python", "Flask", "Pandas", "NumPy", "HTML", "CSS", "JavaScript", "Q-Learning Algorithm"],
+    githubUrl: "https://github.com/max-bader/WakeUp",
     featured: false
   }
 ]; 
