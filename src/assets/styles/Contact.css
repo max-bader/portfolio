@@ -1,7 +1,12 @@
 .contact {
-  padding: 5rem 0;
-  background-color: var(--background-primary);
+  padding: 100rem 0 5rem 0;
+  background-color: transparent;
   position: relative;
+  scroll-margin-top: -30px;
+}
+
+.contact .container {
+  padding-top: 15rem;
 }
 
 .contact-content {
@@ -65,7 +70,7 @@
 
 .social-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(45, 134, 89, 0.4);
 }
 
 .contact-form {
@@ -97,7 +102,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.2);
 }
 
 .form-group textarea {

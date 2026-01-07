@@ -1,4 +1,5 @@
 import React from 'react';
+import { socialLinks } from '../data/socialLinks';
 import '../assets/styles/Hero.css';
 
 const Hero = () => {
@@ -12,30 +13,31 @@ const Hero = () => {
           <h2 className="hero-subtitle">
             Software Developer
           </h2>
-          <p className="hero-description">
-            I'm a passionate and dedicated software engineer with a strong foundation in computer science and an interest in intelligent systems.   
-          </p>
           <div className="hero-buttons">
-            <a href="#projects" className="btn btn-primary">
-              View My Work
-            </a>
-            <a href="#contact" className="btn btn-secondary">
-              Get In Touch
-            </a>
+            {socialLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link"
+              >
+                <i className={link.icon}></i>
+              </a>
+            ))}
             <a
-              href="/resume.pdf"
+              href="/MaxBaderResume copy.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-secondary"
+              className="social-link"
             >
-              View Resume
+              <i className="fas fa-file-alt"></i>
             </a>
           </div>
         </div>
         <div className="hero-image">
-          {/* Add your profile image here */}
           <div className="profile-placeholder">
-            <span>Your Photo</span>
+            <img src="/IMG_1563.jpeg" alt="Max Bader" />
           </div>
         </div>
       </div>

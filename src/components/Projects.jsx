@@ -6,9 +6,19 @@ import '../assets/styles/Projects.css';
 const Projects = () => {
 
   return (
-    <section id="projects" className="projects">
-      <div className="container">
-        <h2 className="section-title">My Projects</h2>
+    <section className="projects">
+      <div id="projects" className="container">
+        <div className="projects-header">
+          <h2 className="section-title">My Projects</h2>
+          <a 
+            href="https://github.com/max-bader" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            <i className="fab fa-github"></i>
+          </a>
+        </div>
         <p className="section-subtitle">
           Here are some of the projects I've worked on. Each one represents 
           a unique challenge and learning experience.
@@ -20,18 +30,6 @@ const Projects = () => {
           {projectsData.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-        </div>
-
-        <div className="projects-cta">
-          <p>Interested in seeing more of my work?</p>
-          <a 
-            href="https://github.com/max-bader" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="btn btn-secondary"
-          >
-            View More on GitHub
-          </a>
         </div>
       </div>
     </section>

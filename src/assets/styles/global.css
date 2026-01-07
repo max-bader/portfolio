@@ -1,22 +1,22 @@
-/* Global Styles - Dark Theme */
+/* Global Styles - Black with Dark Green Accents */
 :root {
-  --primary-color: #00d4ff;
-  --secondary-color: #ff6b35;
-  --accent-color: #ff6b35;
+  --primary-color: #2d8659;
+  --secondary-color: #1a5f3f;
+  --accent-color: #3da66b;
   --text-primary: #ffffff;
-  --text-secondary: #8892b0;
-  --text-light: #ccd6f6;
-  --background-primary: #0a192f;
-  --background-secondary: #112240;
-  --background-dark: #020c1b;
-  --border-color: #233554;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --text-secondary: #a0a0a0;
+  --text-light: #d0d0d0;
+  --background-primary: #000000;
+  --background-secondary: #0a0a0a;
+  --background-dark: #000000;
+  --border-color: #1a3a2a;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
   --border-radius: 8px;
   --transition: all 0.3s ease;
-  --gradient-primary: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-  --gradient-accent: linear-gradient(135deg, #00d4ff, #ff6b35);
+  --gradient-primary: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+  --gradient-accent: linear-gradient(135deg, #2d8659, #3da66b);
 }
 
 * {
@@ -37,41 +37,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   color: var(--text-primary);
-  background: var(--gradient-primary);
+  background: #000000;
   min-height: 100vh;
 }
 
-/* Add scroll offset for fixed header */
-section[id] {
-  scroll-margin-top: 100px;
-}
+/* Scroll offset for fixed header - each section defines its own */
 
 .container {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 3rem;
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 1rem;
+  margin-top: 0;
   color: var(--text-primary);
   background: var(--gradient-accent);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .section-subtitle {
   font-size: 1.1rem;
-  text-align: center;
+  text-align: left;
   color: var(--text-secondary);
-  margin-bottom: 3rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 2rem;
 }
 
 .btn {
@@ -98,7 +94,7 @@ section[id] {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+  box-shadow: 0 10px 20px rgba(45, 134, 89, 0.4);
 }
 
 .btn-secondary {

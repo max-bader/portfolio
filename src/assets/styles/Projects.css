@@ -1,7 +1,12 @@
 .projects {
-  padding: 5rem 0 0 0;
-  background-color: var(--background-secondary);
+  padding: 6rem 0 0 0;
+  background-color: transparent;
   position: relative;
+}
+
+.projects .container {
+  padding-top: 10rem;
+  scroll-margin-top: -50px;
 }
 
 .projects::before {
@@ -11,7 +16,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 212, 255, 0.03) 0%, rgba(255, 107, 53, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(45, 134, 89, 0.03) 0%, rgba(61, 166, 107, 0.03) 100%);
   pointer-events: none;
 }
 
@@ -43,33 +48,48 @@
   transform: translateY(-2px);
 }
 
+.projects-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.projects-header .section-title {
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+
+.github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  background: var(--gradient-accent);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: var(--transition);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.github-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(45, 134, 89, 0.4);
+}
+
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 0.5rem;
   position: relative;
   z-index: 2;
 }
 
-.projects-cta {
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  margin-bottom: 0;
-}
-
-.projects-cta p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-}
-
 @media (max-width: 768px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-
   .projects-filter {
     flex-wrap: wrap;
   }
