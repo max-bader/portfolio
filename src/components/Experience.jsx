@@ -45,6 +45,80 @@ const Experience = () => {
               </div>
             </div>
 
+            {/* Handshake AI Fellowship */}
+            <div className="experience-card">
+              <div className="experience-card-content">
+                <a 
+                  href="https://joinhandshake.com/ai" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="experience-logo"
+                >
+                  <img src="/team_handshake_logo.jpeg" alt="Handshake AI Logo" />
+                </a>
+                <div className="experience-details">
+                  <div className="experience-header">
+                    <div className="experience-company-title">
+                      <h4>Handshake AI</h4>
+                      <h3>AI Trainer</h3>
+                    </div>
+                    <span className="experience-date">10/25 - Present</span>
+                  </div>
+              <div className="experience-description">
+                <p>
+                Developing and evaluating domain-specific prompts to assess the performance of large language models (LLMs). Analyzing LLM outputs for scientific accuracy, clarity, and depth in specialized subfields. Contributing to improving AI understanding of complex topics through expert review and feedback. Conducted independent research to support prompt development and evaluation tasks.
+                </p>
+              </div>
+              <div className="research-skills">
+                <h5>Technologies:</h5>
+                <div className="skills-list">
+                  <span className="skill-item">Large Language Models</span>
+                  <span className="skill-item">Prompt Engineering</span>
+                  <span className="skill-item">AI Evaluation</span>
+                  <span className="skill-item">Research & Analysis</span>
+                </div>
+              </div>
+                </div>
+              </div>
+            </div>
+
+            {/* DapLab */}
+            <div className="experience-card">
+              <div className="experience-card-content">
+                <a 
+                  href="https://daplab.education.uci.edu/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="experience-logo"
+                >
+                  <img src="/daplab_uci_logo.jpeg" alt="DapLab Logo" />
+                </a>
+                <div className="experience-details">
+                  <div className="experience-header">
+                    <div className="experience-company-title">
+                      <h4>DapLab</h4>
+                      <h3>Software Developer Research Assistant</h3>
+                    </div>
+                    <span className="experience-date">9/25-Present</span>
+                  </div>
+              <div className="experience-description">
+                <p>
+                Creating and analyzing prompts for AI pipeline development, focusing on optimizing prompt design and evaluating their effectiveness.
+                </p>
+              </div>
+              <div className="research-skills">
+                <h5>Technologies:</h5>
+                <div className="skills-list">
+                  <span className="skill-item">Prompt Engineering</span>
+                  <span className="skill-item">Pipeline Development</span>
+                  <span className="skill-item">Data Analysis</span>
+                  <span className="skill-item">Research Methods</span>
+                </div>
+              </div>
+                </div>
+              </div>
+            </div>
+
             {/* Current Work */}
             <div className="experience-card">
               <div className="experience-card-content">
@@ -66,7 +140,7 @@ const Experience = () => {
                   </div>
               <div className="experience-description">
                 <p>
-                Collaborating on technical landscape reviews for geospatial and generative AI. Bootstrapped a foundational codebase by integrating open-source libraries, enabling the reuse of data loaders and training utilities across domains.
+                Collaborated on technical landscape reviews for geospatial and generative AI. Bootstrapped a foundational codebase by integrating open-source libraries, enabling the reuse of data loaders and training utilities across domains.
                 </p>
               </div>
               <div className="research-skills">
