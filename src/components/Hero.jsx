@@ -37,7 +37,7 @@ const Hero = () => {
         </div>
         <div className="hero-image">
           <div className="profile-placeholder">
-            <img src="/IMG_1563.jpeg" alt="Max Bader" />
+            <img src="/IMG_5553 copy.png" alt="Max Bader" />
           </div>
         </div>
       </div>
