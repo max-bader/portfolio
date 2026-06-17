@@ -8,6 +8,29 @@ const Experience = () => {
         <h2 className="section-title">Experience & Research</h2>
         <div className="experience-content">
           <div className="experience-grid">
+            {/* CodeHS */}
+            <div className="experience-card">
+              <div className="experience-card-content">
+                <a 
+                  href="https://codehs.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="experience-logo"
+                >
+                  <img src="/codehs.webp" alt="CodeHS Logo" />
+                </a>
+                <div className="experience-details">
+                  <div className="experience-header">
+                    <div className="experience-company-title">
+                      <h4>CodeHS</h4>
+                      <h3>Software Engineer Intern</h3>
+                    </div>
+                    <span className="experience-date">6/26 - Present</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Current Work */}
             <div className="experience-card">
               <div className="experience-card-content">
@@ -25,7 +48,7 @@ const Experience = () => {
                       <h4>YesMedia</h4>
                       <h3>Software Engineer Intern</h3>
                     </div>
-                    <span className="experience-date">10/25 - Present</span>
+                    <span className="experience-date">10/25 - 6/26</span>
                   </div>
               <div className="experience-description">
                 <p>
@@ -62,7 +85,7 @@ const Experience = () => {
                       <h4>Handshake AI</h4>
                       <h3>AI Trainer</h3>
                     </div>
-                    <span className="experience-date">10/25 - Present</span>
+                    <span className="experience-date">10/25 - 5/26</span>
                   </div>
               <div className="experience-description">
                 <p>
@@ -99,7 +122,7 @@ const Experience = () => {
                       <h4>DapLab</h4>
                       <h3>Software Developer Research Assistant</h3>
                     </div>
-                    <span className="experience-date">9/25-Present</span>
+                    <span className="experience-date">9/25 - 6/26</span>
                   </div>
               <div className="experience-description">
                 <p>
