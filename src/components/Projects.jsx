@@ -4,36 +4,34 @@ import { projectsData } from '../data/projects';
 import '../assets/styles/Projects.css';
 
 const Projects = () => {
-
   return (
-    <section className="projects">
-      <div id="projects" className="container">
-        <div className="projects-header">
-          <h2 className="section-title">My Projects</h2>
-          <a 
-            href="https://github.com/max-bader" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="github-link"
-          >
-            <i className="fab fa-github"></i>
-          </a>
+    <section id="projects" className="section projects">
+      <div className="container">
+        <div className="section-head" data-reveal>
+          <span className="eyebrow">02.</span>
+          <h2 className="section-title">Things I've Built</h2>
         </div>
-        <p className="section-subtitle">
-          Here are some of the projects I've worked on. Each one represents 
-          a unique challenge and learning experience.
-        </p>
-        
-        {/* Filter buttons removed to always show all projects */}
 
-        <div className="projects-grid">
+        <div className="projects-list">
           {projectsData.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
+        </div>
+
+        <div className="projects-more" data-reveal>
+          <a
+            href="https://github.com/max-bader"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost"
+          >
+            <i className="fab fa-github" aria-hidden="true"></i>
+            More on GitHub
+          </a>
         </div>
       </div>
     </section>
   );
 };
 
-export default Projects; 
+export default Projects;

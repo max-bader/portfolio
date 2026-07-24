@@ -1,123 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { socialLinks } from '../data/socialLinks';
 import '../assets/styles/Contact.css';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
-  };
-
   return (
-    <section id="contact" className="contact">
-      <div className="container">
-        <h2 className="section-title">Get In Touch</h2>
-        <div className="contact-content">
-          <div className="contact-info">
-            <h3>Let's Connect</h3>
-            <p>
-              I'm always interested in hearing about new opportunities and 
-              exciting projects. Feel free to reach out if you'd like to 
-              collaborate or just want to say hello!
-            </p>
-            
-            <div className="contact-details">
-              <div className="contact-item">
-                <i className="fas fa-envelope"></i>
-                <span>mibader@uci.edu</span>
-              </div>
-              <div className="contact-item">
-                <i className="fas fa-map-marker-alt"></i>
-                <span>Irvine, CA</span>
-              </div>
-            </div>
-
-            <div className="social-links">
-              {socialLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-link"
-                >
-                  <i className={link.icon}></i>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                placeholder="Subject"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Your Message"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Send Message
-            </button>
-          </form>
+    <section id="contact" className="section contact">
+      <div className="container contact-inner" data-reveal>
+        <p className="eyebrow">03. What's next?</p>
+        <h2 className="contact-title">Get in touch</h2>
+        <p className="contact-blurb">
+          I'm currently open to internships, research collaborations, and
+          interesting projects. My inbox is always open — whether you have a
+          question or just want to say hi, I'll get back to you.
+        </p>
+        <a href="mailto:mibader@uci.edu" className="btn btn-primary contact-cta">
+          Say hello
+        </a>
+        <div className="contact-socials">
+          {socialLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-link"
+              aria-label={link.name}
+            >
+              <i className={link.icon} aria-hidden="true"></i>
+            </a>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-export default Contact; 
+export default Contact;

@@ -1,34 +1,52 @@
 import React, { useState } from 'react';
 import '../assets/styles/Header.css';
 
+const navLinks = [
+  { href: '#experience', number: '01', label: 'experience' },
+  { href: '#projects', number: '02', label: 'work' },
+  { href: '#contact', number: '03', label: 'contact' },
+];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
     <header className="header">
-      <div className="header-container">
-        <div className="logo">
-          <h1>Max Bader._</h1>
-        </div>
-        
+      <div className="header-inner">
+        <a href="#home" className="logo" aria-label="Home">
+          mb<span className="logo-cursor">._</span>
+        </a>
+
         <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
           <ul className="nav-list">
-            <li><a href="#home" data-number="01" onClick={() => setIsMenuOpen(false)}>home</a></li>
-            <li><a href="#experience" data-number="02" onClick={() => setIsMenuOpen(false)}>experience</a></li>
-            <li><a href="#projects" data-number="03" onClick={() => setIsMenuOpen(false)}>work</a></li>
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} onClick={() => setIsMenuOpen(false)}>
+                  <span className="nav-number">{link.number}.</span>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-resume"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                resume
+              </a>
+            </li>
           </ul>
         </nav>
 
-        <button 
+        <button
           className={`hamburger ${isMenuOpen ? 'active' : ''}`}
-          onClick={toggleMenu}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
         >
-          <span></span>
           <span></span>
           <span></span>
         </button>
@@ -37,4 +55,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;
