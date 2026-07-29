@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(11, 13, 15, 0.75);
+  background: var(--bg-blur);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -21,15 +21,16 @@
 }
 
 .logo {
-  font-family: var(--font-mono);
-  font-size: 1.15rem;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
   color: var(--text);
   letter-spacing: -0.02em;
 }
 
 .logo-cursor {
   color: var(--accent);
+  font-style: italic;
 }
 
 .nav-list {
@@ -40,7 +41,9 @@
 
 .nav-list a {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--text-muted);
   transition:
     color var(--dur-hover) ease,
@@ -115,7 +118,7 @@
     top: 64px;
     left: 0;
     right: 0;
-    background: rgba(11, 13, 15, 0.97);
+    background: var(--bg-sheet);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     transform: translateY(-8px);

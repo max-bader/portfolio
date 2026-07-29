@@ -2,27 +2,36 @@
    Design tokens
    ============================================ */
 :root {
-  --bg: #0b0d0f;
-  --bg-elev: #111417;
-  --bg-hover: #16191d;
-  --border: #1e2429;
-  --border-strong: #2a323a;
+  /* Paper, not cream — a cool near-white that reads as lab notebook
+     rather than the warm-cream/terracotta editorial default. */
+  --bg: #fcfcfa;
+  --bg-elev: #f4f5f2;
+  --bg-hover: #eef0ec;
+  --border: #e4e7e2;
+  --border-strong: #d2d7d1;
 
-  --text: #e7ecef;
-  --text-muted: #97a1a9;
-  --text-faint: #626c74;
+  --text: #14181a;
+  --text-muted: #5a6469;
+  --text-faint: #8b9499;
 
-  --accent: #57d497;
-  --accent-dim: rgba(87, 212, 151, 0.12);
-  --accent-glow: rgba(87, 212, 151, 0.07);
+  /* Deep pine: his mint, taken somewhere it can carry weight on paper. */
+  --accent: #1c6b4b;
+  --accent-dim: rgba(28, 107, 75, 0.09);
+  --accent-glow: rgba(28, 107, 75, 0.05);
 
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk', var(--font-body);
+  /* Translucent ground for the sticky header / mobile sheet. */
+  --bg-blur: rgba(252, 252, 250, 0.78);
+  --bg-sheet: rgba(252, 252, 250, 0.97);
+
+  --font-body: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 
-  --radius: 10px;
-  --radius-lg: 16px;
+  --radius: 8px;
+  --radius-lg: 12px;
   --container: 1080px;
+  /* Marginalia rail: annotations sit left of the measure. */
+  --margin-rail: 148px;
 
   /* Motion: custom curves — built-in CSS easings lack punch.
      Never ease-in on UI; it starts slow and reads as sluggish. */
@@ -31,6 +40,29 @@
   --dur-press: 140ms;
   --dur-hover: 200ms;
   --dur-reveal: 620ms;
+}
+
+/* Dark isn't an inversion — it's the same paper seen at night: ink
+   deepens to a warm charcoal, the pine lifts to stay legible. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12140f;
+    --bg-elev: #191c16;
+    --bg-hover: #1f231c;
+    --border: #272b23;
+    --border-strong: #363b31;
+
+    --text: #edefe8;
+    --text-muted: #9aa294;
+    --text-faint: #6d7568;
+
+    --accent: #7fc9a3;
+    --accent-dim: rgba(127, 201, 163, 0.12);
+    --accent-glow: rgba(127, 201, 163, 0.06);
+
+    --bg-blur: rgba(18, 20, 15, 0.78);
+    --bg-sheet: rgba(18, 20, 15, 0.97);
+  }
 }
 
 /* ============================================
@@ -51,10 +83,8 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--bg);
-  background-image: radial-gradient(1100px 520px at 75% -8%, var(--accent-glow), transparent 70%);
-  background-repeat: no-repeat;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -91,37 +121,49 @@ ul {
   padding: 7rem 0;
 }
 
+/* Section heads sit on the marginalia grid: a small mono label out in
+   the rail, the title on the measure. No sequence numbers — these
+   sections aren't steps, and numbering them would imply an order that
+   doesn't exist. */
 .section-head {
-  display: flex;
+  display: grid;
+  grid-template-columns: var(--margin-rail) 1fr;
+  gap: 2rem;
   align-items: baseline;
-  gap: 1.25rem;
-  margin-bottom: 3rem;
+  margin-bottom: 3.25rem;
 }
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
-  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 400;
   color: var(--text);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  text-wrap: balance;
 }
 
-.section-head::after {
-  content: '';
-  height: 1px;
-  background: var(--border);
-  flex: 1;
-  transform: translateY(-0.35em);
+/* Below the rail breakpoint the margin folds into the measure and
+   labels sit directly above their titles. */
+@media (max-width: 780px) {
+  :root {
+    --margin-rail: 0px;
+  }
+
+  .section-head {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
 }
 
 /* ============================================
@@ -151,26 +193,30 @@ ul {
   transition-duration: var(--dur-press);
 }
 
+/* Solid on paper: an outline button reads as tentative on light,
+   where a filled one carries the same weight black gave it. */
 .btn-primary {
-  color: var(--accent);
+  color: var(--bg);
   border-color: var(--accent);
-  background: transparent;
+  background: var(--accent);
 }
 
 .btn-ghost {
-  color: var(--text-muted);
+  color: var(--text);
   border-color: var(--border-strong);
+  background: transparent;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background: var(--accent-dim);
+    background: color-mix(in oklab, var(--accent) 84%, black);
+    border-color: color-mix(in oklab, var(--accent) 84%, black);
     transform: translateY(-2px);
   }
 
   .btn-ghost:hover {
-    color: var(--text);
-    border-color: var(--text-faint);
+    border-color: var(--accent);
+    color: var(--accent);
     transform: translateY(-2px);
   }
 
@@ -184,14 +230,18 @@ ul {
 /* ============================================
    Tags
    ============================================ */
+/* Set as keyword marginalia, not pills — closer to index terms than
+   to chips, and it keeps the page quiet. */
 .tag {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--accent);
-  background: var(--accent-dim);
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.22rem 0.6rem;
+  border-radius: 3px;
   line-height: 1.4;
+  white-space: nowrap;
 }
 
 /* ============================================
@@ -285,4 +335,3 @@ ul {
     padding: 5rem 0;
   }
 }
-

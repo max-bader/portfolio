@@ -7,8 +7,8 @@ const Experience = () => {
     <section id="experience" className="section experience">
       <div className="container">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">01.</span>
-          <h2 className="section-title">Experience & Research</h2>
+          <span className="eyebrow">Record</span>
+          <h2 className="section-title">Experience &amp; research</h2>
         </div>
 
         <div className="xp-list">

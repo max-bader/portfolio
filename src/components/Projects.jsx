@@ -8,8 +8,8 @@ const Projects = () => {
     <section id="projects" className="section projects">
       <div className="container">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">02.</span>
-          <h2 className="section-title">Things I've Built</h2>
+          <span className="eyebrow">Selected work</span>
+          <h2 className="section-title">Things I&rsquo;ve built</h2>
         </div>
 
         <div className="projects-list">

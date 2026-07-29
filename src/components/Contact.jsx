@@ -6,7 +6,7 @@ const Contact = () => {
   return (
     <section id="contact" className="section contact">
       <div className="container contact-inner" data-reveal>
-        <p className="eyebrow">03. What's next?</p>
+        <p className="eyebrow">Colophon</p>
         <h2 className="contact-title">Get in touch</h2>
         <p className="contact-blurb">
           I'm currently open to internships, research collaborations, and

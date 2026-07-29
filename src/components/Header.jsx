@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import '../assets/styles/Header.css';
 
 const navLinks = [
-  { href: '#experience', number: '01', label: 'experience' },
-  { href: '#projects', number: '02', label: 'work' },
-  { href: '#contact', number: '03', label: 'contact' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Work' },
+  { href: '#contact', label: 'Contact' },
 ];
 
 const Header = () => {
@@ -37,7 +37,7 @@ const Header = () => {
     <header className="header">
       <div className="header-inner">
         <a href="#home" className="logo" aria-label="Home">
-          mb<span className="logo-cursor">._</span>
+          Max Bader<span className="logo-cursor">.</span>
         </a>
 
         <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
@@ -50,7 +50,6 @@ const Header = () => {
                   aria-current={activeId === link.href ? 'true' : undefined}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <span className="nav-number">{link.number}.</span>
                   {link.label}
                 </a>
               </li>
