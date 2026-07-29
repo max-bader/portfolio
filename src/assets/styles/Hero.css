@@ -111,12 +111,16 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-strong);
   filter: saturate(0.9);
-  transition: var(--transition);
+  transition:
+    filter var(--dur-hover) ease,
+    border-color var(--dur-hover) ease;
 }
 
-.hero-photo img:hover {
-  filter: saturate(1);
-  border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .hero-photo img:hover {
+    filter: saturate(1);
+    border-color: var(--accent);
+  }
 }
 
 @media (max-width: 860px) {

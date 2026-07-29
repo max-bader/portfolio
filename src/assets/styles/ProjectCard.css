@@ -15,12 +15,13 @@
   border: 1px solid var(--border-strong);
   overflow: hidden;
   background: var(--bg-elev);
-  transition: var(--transition);
+  transition:
+    transform var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) ease;
 }
 
-.project-media a:hover {
-  border-color: var(--accent);
-  transform: translateY(-4px);
+.project-media a:active {
+  transform: scale(0.99);
 }
 
 .project-media img {
@@ -29,11 +30,34 @@
   object-fit: cover;
   object-position: top;
   filter: saturate(0.85);
-  transition: var(--transition);
+  transition:
+    filter var(--dur-hover) ease,
+    transform 480ms var(--ease-out);
 }
 
-.project-media a:hover img {
-  filter: saturate(1);
+@media (hover: hover) and (pointer: fine) {
+  .project-media a:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .project-media a:hover img {
+    filter: saturate(1);
+    /* Slow push-in gives the card depth on hover. */
+    transform: scale(1.03);
+  }
+
+  .project-media a:active {
+    transform: translateY(-4px) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-media a:hover,
+  .project-media a:active,
+  .project-media a:hover img {
+    transform: none;
+  }
 }
 
 .project-title {

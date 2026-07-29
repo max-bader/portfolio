@@ -9,11 +9,13 @@
   gap: 2rem;
   padding: 2rem 1.25rem;
   border-radius: var(--radius-lg);
-  transition: var(--transition);
+  transition: background-color var(--dur-hover) ease;
 }
 
-.xp-row:hover {
-  background: var(--bg-elev);
+@media (hover: hover) and (pointer: fine) {
+  .xp-row:hover {
+    background: var(--bg-elev);
+  }
 }
 
 .xp-row + .xp-row {
@@ -47,7 +49,7 @@
   align-items: center;
   gap: 0.5rem;
   vertical-align: bottom;
-  transition: var(--transition);
+  transition: color var(--dur-hover) ease;
 }
 
 .xp-company:hover {

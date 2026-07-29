@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../assets/styles/Header.css';
 
 const navLinks = [
@@ -9,6 +9,29 @@ const navLinks = [
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState('');
+
+  // Scroll-spy: mark whichever section is nearest the top of the viewport.
+  useEffect(() => {
+    const sections = navLinks
+      .map((l) => document.querySelector(l.href))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length) setActiveId(`#${visible[0].target.id}`);
+      },
+      // Band just under the header, so "active" flips as a section reaches the top.
+      { rootMargin: '-64px 0px -55% 0px', threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header className="header">
@@ -21,7 +44,12 @@ const Header = () => {
           <ul className="nav-list">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a href={link.href} onClick={() => setIsMenuOpen(false)}>
+                <a
+                  href={link.href}
+                  className={activeId === link.href ? 'is-active' : undefined}
+                  aria-current={activeId === link.href ? 'true' : undefined}
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   <span className="nav-number">{link.number}.</span>
                   {link.label}
                 </a>

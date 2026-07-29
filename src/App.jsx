@@ -13,11 +13,16 @@ function App() {
     }
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
+        // Elements crossing together stagger in document order (~70ms
+        // apart) rather than snapping in at once. Capped so a long list
+        // never leaves the last item waiting.
+        const entering = entries.filter((e) => e.isIntersecting);
+        entering.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        entering.forEach((entry, i) => {
+          entry.target.style.setProperty('--reveal-index', String(Math.min(i, 4)));
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
         });
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }

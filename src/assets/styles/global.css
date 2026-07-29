@@ -23,7 +23,14 @@
   --radius: 10px;
   --radius-lg: 16px;
   --container: 1080px;
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Motion: custom curves — built-in CSS easings lack punch.
+     Never ease-in on UI; it starts slow and reads as sluggish. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 140ms;
+  --dur-hover: 200ms;
+  --dur-reveal: 620ms;
 }
 
 /* ============================================
@@ -131,7 +138,17 @@ ul {
   border-radius: var(--radius);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: var(--transition);
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-hover) ease,
+    border-color var(--dur-hover) ease,
+    color var(--dur-hover) ease;
+}
+
+/* Press feedback: instant, physical. Applies on touch too. */
+.btn:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-press);
 }
 
 .btn-primary {
@@ -140,20 +157,28 @@ ul {
   background: transparent;
 }
 
-.btn-primary:hover {
-  background: var(--accent-dim);
-  transform: translateY(-2px);
-}
-
 .btn-ghost {
   color: var(--text-muted);
   border-color: var(--border-strong);
 }
 
-.btn-ghost:hover {
-  color: var(--text);
-  border-color: var(--text-faint);
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--text-faint);
+    transform: translateY(-2px);
+  }
+
+  /* Press wins over hover-lift when both are active */
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: translateY(-2px) scale(0.97);
+  }
 }
 
 /* ============================================
@@ -182,13 +207,36 @@ ul {
   border: 1px solid var(--border-strong);
   color: var(--text-muted);
   font-size: 1.1rem;
-  transition: var(--transition);
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    border-color var(--dur-hover) ease,
+    color var(--dur-hover) ease;
 }
 
-.icon-link:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-2px);
+.icon-link:active {
+  transform: scale(0.94);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .icon-link:active {
+    transform: translateY(-2px) scale(0.94);
+  }
+}
+
+/* ============================================
+   Focus — keyboard users get a visible ring.
+   :focus-visible so it never shows on mouse click.
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* ============================================
@@ -197,7 +245,11 @@ ul {
 [data-reveal] {
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+  /* Siblings cascade in rather than snapping together. */
+  transition-delay: calc(var(--reveal-index, 0) * 70ms);
 }
 
 [data-reveal].revealed {
@@ -205,14 +257,26 @@ ul {
   transform: none;
 }
 
+/* Reduce motion, don't remove it: keep the fade (it still signals
+   "new content"), drop the movement that causes discomfort. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
   [data-reveal] {
-    opacity: 1;
     transform: none;
-    transition: none;
+    transition: opacity 200ms ease;
+    transition-delay: 0ms;
+  }
+
+  /* Kill positional motion; colour/opacity transitions stay. */
+  .btn:active,
+  .btn-primary:hover,
+  .btn-ghost:hover,
+  .icon-link:hover,
+  .icon-link:active {
+    transform: none;
   }
 }
 
