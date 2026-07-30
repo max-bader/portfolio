@@ -8,7 +8,7 @@ import CommandPalette from './components/CommandPalette';
 import Terminal from './components/Terminal';
 import MatrixRain from './components/MatrixRain';
 import { useKonamiCode } from './hooks/useKonamiCode';
-import { applyAccent, readStoredAccent } from './lib/theme';
+import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './assets/styles/global.css';
 import './App.css';
 
@@ -26,9 +26,10 @@ function App() {
   const openTerminal = useCallback(() => setTerminalOpen(true), []);
   const startMatrix = useCallback(() => setMatrixOn(true), []);
 
-  // Restore the visitor's saved accent before anything paints against it.
+  // Restore the visitor's saved accent and theme before anything paints.
   useEffect(() => {
     applyAccent(readStoredAccent().id, { persist: false });
+    applyTheme(readStoredTheme(), { persist: false });
   }, []);
 
   useKonamiCode(startMatrix);

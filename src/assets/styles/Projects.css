@@ -20,6 +20,11 @@
   pointer-events: none;
 }
 
+/* On a light page the wash reads as a seam against the body, not a glow. */
+:root[data-theme='light'] .projects::before {
+  display: none;
+}
+
 .projects-filter {
   display: flex;
   justify-content: center;
@@ -44,7 +49,7 @@
 .filter-btn.active,
 .filter-btn:hover {
   background: var(--gradient-accent);
-  color: white;
+  color: var(--on-accent);
   transform: translateY(-2px);
 }
 
@@ -67,7 +72,7 @@
   width: 45px;
   height: 45px;
   background: var(--gradient-accent);
-  color: white;
+  color: var(--on-accent);
   border-radius: 50%;
   text-decoration: none;
   transition: var(--transition);

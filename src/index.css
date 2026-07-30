@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #000000;
+  color: var(--text-primary);
+  background-color: var(--surface-page);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,11 +25,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* Not flex-centered: a centered flex item taller than the viewport pushes
+     its own top out of scroll range. #root centers itself with margin auto. */
   min-width: 320px;
   min-height: 100vh;
-  background-color: #000000;
+  background-color: var(--surface-page);
 }
 
 h1 {

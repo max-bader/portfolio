@@ -6,12 +6,23 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.72);
+  background: var(--scrim);
   backdrop-filter: blur(6px);
   animation: overlay-in 0.18s ease-out;
 }
 
 .terminal-window {
+  /* A terminal is a dark surface in any theme, so it keeps its own tokens
+     rather than following the page — including the dark-page variant of the
+     accent, so a black accent doesn't go black-on-black in here. */
+  --accent-rgb: var(--accent-on-dark);
+  --accent-rgb-bright: var(--accent-on-dark-bright);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-light: #d0d0d0;
+  --border-color: rgba(var(--accent-rgb), 0.32);
+  --surface-raised: rgba(255, 255, 255, 0.03);
+
   width: min(820px, 100%);
   height: min(560px, 78vh);
   display: flex;

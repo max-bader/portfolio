@@ -124,7 +124,7 @@
   width: 45px;
   height: 45px;
   background: var(--gradient-accent);
-  color: white;
+  color: var(--on-accent);
   border-radius: 50%;
   text-decoration: none;
   transition: var(--transition);
@@ -213,7 +213,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--on-accent);
   font-size: 1.2rem;
   font-weight: 600;
   box-shadow: var(--shadow-lg), 0 0 60px rgba(var(--accent-rgb), 0.25);

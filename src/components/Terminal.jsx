@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { commandNames, runCommand } from '../lib/commands';
-import { applyAccent } from '../lib/theme';
+import { applyAccent, applyTheme } from '../lib/theme';
 import '../assets/styles/Terminal.css';
 
 let lineId = 0;
@@ -70,6 +70,7 @@ const Terminal = ({ open, onClose, onMatrix }) => {
           document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
         },
         setAccent: (id) => applyAccent(id),
+        setAppearance: (mode) => applyTheme(mode),
         matrix: () => {
           onClose();
           onMatrix();

@@ -212,6 +212,18 @@ export const createCommands = (ctx) => {
       }
     },
 
+    appearance: {
+      description: 'Switch the page between light and dark',
+      run: (args) => {
+        const target = (args[0] || '').toLowerCase();
+        if (target !== 'light' && target !== 'dark') {
+          return [line('Usage: appearance light|dark', 'error')];
+        }
+        ctx.setAppearance(target);
+        return [line(`Switched to ${target} mode`, 'success')];
+      }
+    },
+
     matrix: {
       description: 'Follow the white rabbit',
       run: () => {
@@ -292,6 +304,7 @@ export const commandNames = () => {
     copy: () => {},
     navigate: () => {},
     setAccent: () => {},
+    setAppearance: () => {},
     matrix: () => {},
     clear: () => {},
     close: () => {}

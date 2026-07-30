@@ -21,9 +21,11 @@ const MatrixRain = ({ onExit }) => {
     let frame = 0;
     let last = 0;
 
-    const accent = getComputedStyle(document.documentElement)
-      .getPropertyValue('--accent-rgb-bright')
-      .trim() || '61, 166, 107';
+    // Always-black overlay, so it needs the dark-page variant of the accent.
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent-on-dark-bright')
+        .trim() || '61, 166, 107';
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);

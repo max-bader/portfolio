@@ -1,7 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { projectsData } from '../data/projects';
 import { EMAIL, PAPER_URL, RESUME_URL } from '../lib/commands';
-import { accents, applyAccent } from '../lib/theme';
+import {
+  accents,
+  applyAccent,
+  applyTheme,
+  currentTheme,
+  resolveAccent
+} from '../lib/theme';
 import '../assets/styles/CommandPalette.css';
 
 /**
@@ -37,6 +43,8 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
   const [toast, setToast] = useState('');
+  // Tracked in state so the accent swatches re-resolve when the theme flips.
+  const [theme, setTheme] = useState(currentTheme);
 
   const inputRef = useRef(null);
   const listRef = useRef(null);
@@ -113,12 +121,35 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
         run: () => openUrl(project.githubUrl)
       })),
 
+      {
+        id: 'appearance-dark',
+        group: 'Appearance',
+        label: 'Dark mode',
+        icon: 'fas fa-moon',
+        keepOpen: true,
+        run: () => {
+          setTheme(applyTheme('dark'));
+          setToast('Dark mode');
+        }
+      },
+      {
+        id: 'appearance-light',
+        group: 'Appearance',
+        label: 'Light mode',
+        icon: 'fas fa-sun',
+        keepOpen: true,
+        run: () => {
+          setTheme(applyTheme('light'));
+          setToast('Light mode');
+        }
+      },
+
       ...accents.map((accent) => ({
         id: `accent-${accent.id}`,
-        group: 'Theme',
+        group: 'Accent',
         label: `Accent: ${accent.label}`,
         icon: 'fas fa-palette',
-        swatch: accent.base,
+        swatch: resolveAccent(accent, theme).base,
         keepOpen: true,
         run: () => {
           applyAccent(accent.id);
@@ -128,7 +159,7 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
 
       {
         id: 'matrix',
-        group: 'Theme',
+        group: 'Accent',
         label: 'Enter the matrix',
         icon: 'fas fa-wand-magic-sparkles',
         run: () => {
@@ -137,7 +168,7 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
         }
       }
     ];
-  }, [onClose, onOpenTerminal, onMatrix]);
+  }, [onClose, onOpenTerminal, onMatrix, theme]);
 
   const results = useMemo(() => {
     if (!query.trim()) return actions;
@@ -162,6 +193,8 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
     if (!open) return;
     setQuery('');
     setToast('');
+    // The terminal's `appearance` command can change this behind our back.
+    setTheme(currentTheme());
     // Focus after the panel has mounted so the caret lands correctly.
     const id = window.requestAnimationFrame(() => inputRef.current?.focus());
     return () => window.cancelAnimationFrame(id);

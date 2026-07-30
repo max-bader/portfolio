@@ -22,7 +22,7 @@
   height: 14px;
   border-radius: 50%;
   background: var(--primary-color);
-  border: 2px solid #000000;
+  border: 2px solid var(--dot-ring);
   box-sizing: border-box;
   transform: translateX(-50%);
 }
@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--on-accent);
   font-weight: 600;
 }
 
@@ -113,7 +113,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   background: var(--gradient-accent);
-  color: white;
+  color: var(--on-accent);
   text-decoration: none;
   border-radius: var(--border-radius);
   font-weight: 600;

@@ -24,25 +24,38 @@
     <title>Max Bader - Portfolio</title>
 
     <script>
-      // Apply the saved accent before first paint so the theme never flashes.
+      // Apply the saved theme + accent before first paint so neither flashes.
+      // Mirrors resolveAccent() in src/lib/theme.js — keep the two in sync.
       (function () {
         var accents = {
-          matrix: ['45, 134, 89', '61, 166, 107'],
-          cyan: ['34, 158, 189', '56, 199, 224'],
-          amber: ['190, 138, 45', '224, 168, 60'],
-          violet: ['124, 92, 214', '155, 124, 240'],
-          crimson: ['190, 62, 82', '224, 84, 104']
-        };
-        try {
-          var saved = localStorage.getItem('portfolio-accent');
-          var accent = accents[saved];
-          if (accent) {
-            document.documentElement.style.setProperty('--accent-rgb', accent[0]);
-            document.documentElement.style.setProperty('--accent-rgb-bright', accent[1]);
-            document.documentElement.dataset.accent = saved;
+          matrix: { dark: ['45, 134, 89', '61, 166, 107'] },
+          cyan: { dark: ['34, 158, 189', '56, 199, 224'] },
+          amber: { dark: ['190, 138, 45', '224, 168, 60'] },
+          violet: { dark: ['124, 92, 214', '155, 124, 240'] },
+          crimson: { dark: ['190, 62, 82', '224, 84, 104'] },
+          mono: {
+            dark: ['228, 231, 234', '255, 255, 255'],
+            light: ['20, 24, 28', '54, 62, 70']
           }
+        };
+        var root = document.documentElement;
+        try {
+          var theme = localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark';
+          if (theme === 'light') root.dataset.theme = 'light';
+
+          var savedAccent = localStorage.getItem('portfolio-accent');
+          var accent = accents[savedAccent];
+          if (!accent) return;
+
+          var onPage = accent[theme] || accent.dark;
+          var onDark = accent.dark;
+          root.style.setProperty('--accent-rgb', onPage[0]);
+          root.style.setProperty('--accent-rgb-bright', onPage[1]);
+          root.style.setProperty('--accent-on-dark', onDark[0]);
+          root.style.setProperty('--accent-on-dark-bright', onDark[1]);
+          root.dataset.accent = savedAccent;
         } catch (e) {
-          /* localStorage unavailable — fall back to the default accent. */
+          /* localStorage unavailable — fall back to the defaults. */
         }
       })();
     </script>
