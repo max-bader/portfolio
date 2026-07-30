@@ -1,22 +1,30 @@
-/* Global Styles - Black with Dark Green Accents */
+/* Global Styles - Black with a swappable accent (see src/lib/theme.js) */
 :root {
-  --primary-color: #2d8659;
-  --secondary-color: #1a5f3f;
-  --accent-color: #3da66b;
+  /* The two numbers everything else is derived from. */
+  --accent-rgb: 45, 134, 89;
+  --accent-rgb-bright: 61, 166, 107;
+
+  --primary-color: rgb(var(--accent-rgb));
+  --secondary-color: rgba(var(--accent-rgb), 0.7);
+  --accent-color: rgb(var(--accent-rgb-bright));
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
   --text-light: #d0d0d0;
   --background-primary: #000000;
   --background-secondary: #0a0a0a;
   --background-dark: #000000;
-  --border-color: #1a3a2a;
+  --border-color: rgba(var(--accent-rgb), 0.32);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
   --border-radius: 8px;
   --transition: all 0.3s ease;
   --gradient-primary: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
-  --gradient-accent: linear-gradient(135deg, #2d8659, #3da66b);
+  --gradient-accent: linear-gradient(
+    135deg,
+    rgb(var(--accent-rgb)),
+    rgb(var(--accent-rgb-bright))
+  );
 }
 
 * {
@@ -94,7 +102,7 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(45, 134, 89, 0.4);
+  box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.4);
 }
 
 .btn-secondary {
@@ -130,7 +138,114 @@ body {
   color: var(--accent-color);
 }
 
+/* Scroll progress bar pinned above the header */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: var(--gradient-accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Scroll-triggered reveals (see components/Reveal.jsx) */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.3, 1),
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Cursor-following glow shared by experience and project cards */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(var(--accent-rgb), 0.1),
+    transparent 65%
+  );
+}
+
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* Shared overlay animations (command palette, terminal, matrix) */
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Keyboard focus that matches the accent instead of the browser default */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent-rgb-bright));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 /* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .text-center {
   text-align: center;
 }

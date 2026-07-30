@@ -1,0 +1,158 @@
+.terminal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  animation: overlay-in 0.18s ease-out;
+}
+
+.terminal-window {
+  width: min(820px, 100%);
+  height: min(560px, 78vh);
+  display: flex;
+  flex-direction: column;
+  background: rgba(6, 8, 7, 0.97);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(var(--accent-rgb), 0.08),
+    0 0 60px rgba(var(--accent-rgb), 0.12);
+  overflow: hidden;
+  animation: panel-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  display: block;
+}
+
+button.terminal-dot {
+  cursor: pointer;
+}
+
+.terminal-dot-close { background: #ff5f57; }
+.terminal-dot-min { background: #febc2e; }
+.terminal-dot-max { background: #28c840; }
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.terminal-hint {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  text-transform: uppercase;
+}
+
+.terminal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.1rem 1.4rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  cursor: text;
+  text-align: left;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.35);
+  border-radius: 4px;
+}
+
+.terminal-line {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font: inherit;
+  color: var(--text-light);
+  animation: line-in 0.18s ease-out;
+}
+
+.terminal-line.tone-accent { color: rgb(var(--accent-rgb-bright)); }
+.terminal-line.tone-muted { color: var(--text-secondary); }
+.terminal-line.tone-success { color: rgb(var(--accent-rgb-bright)); }
+.terminal-line.tone-error { color: #ff6b6b; }
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.terminal-prompt {
+  color: rgb(var(--accent-rgb-bright));
+  white-space: nowrap;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font: inherit;
+  caret-color: rgb(var(--accent-rgb-bright));
+  padding: 0;
+}
+
+/* The whole window already signals focus; a ring here just adds noise. */
+.terminal-input:focus-visible {
+  outline: none;
+}
+
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 768px) {
+  .terminal-backdrop { padding: 0.75rem; }
+  .terminal-window { height: 82vh; }
+  .terminal-body { font-size: 0.76rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-backdrop,
+  .terminal-window,
+  .terminal-line {
+    animation: none;
+  }
+}

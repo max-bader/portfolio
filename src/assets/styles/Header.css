@@ -3,12 +3,17 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(10px);
   z-index: 1000;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header.is-scrolled {
+  background-color: rgba(0, 0, 0, 0.9);
+  border-bottom-color: var(--border-color);
   box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  border-bottom: 1px solid var(--border-color);
 }
 
 .header-container {
@@ -64,7 +69,8 @@
   font-weight: 600;
 }
 
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-list a.is-active {
   color: var(--primary-color);
 }
 
@@ -76,11 +82,46 @@
   width: 0;
   height: 2px;
   background: var(--gradient-accent);
-  transition: var(--transition);
+  transition: width 0.3s ease;
 }
 
-.nav-list a:hover::after {
+.nav-list a:hover::after,
+.nav-list a.is-active::after {
   width: 100%;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 36px;
+  padding: 0 0.7rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.header-action:hover {
+  color: var(--primary-color);
+  border-color: rgba(var(--accent-rgb), 0.55);
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.header-action kbd {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: inherit;
+  letter-spacing: 0.04em;
 }
 
 .hamburger {
@@ -110,6 +151,16 @@
 
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -6px);
+}
+
+@media (max-width: 900px) {
+  .header-action-palette kbd {
+    display: none;
+  }
+
+  .header-action {
+    padding: 0 0.6rem;
+  }
 }
 
 @media (max-width: 768px) {
