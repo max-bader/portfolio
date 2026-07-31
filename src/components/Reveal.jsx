@@ -17,8 +17,13 @@ const Reveal = ({ children, delay = 0, className = '', ...rest }) => {
       return;
     }
 
+    // An observer that is working reports on every element it observes soon
+    // after observe(), intersecting or not. Silence means it never ran.
+    let reported = false;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
+        reported = true;
         if (!entry.isIntersecting) return;
         setVisible(true);
         observer.disconnect();
@@ -27,7 +32,17 @@ const Reveal = ({ children, delay = 0, className = '', ...rest }) => {
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+
+    // Safety net: unanimated content beats permanently invisible content.
+    // Scoped to "heard nothing", so real scroll reveals still animate.
+    const fallback = window.setTimeout(() => {
+      if (!reported) setVisible(true);
+    }, 2000);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (

@@ -35,6 +35,7 @@
   --scrim: rgba(0, 0, 0, 0.7);
   --dot-ring: #000000;
   --on-accent: #ffffff;
+  --particle-opacity: 0.85;
 
   /* Accent resolved for always-dark surfaces; JS overwrites these. */
   --accent-on-dark: var(--accent-rgb);
@@ -64,6 +65,7 @@
   --surface-header-scrolled: rgba(246, 246, 244, 0.92);
   --scrim: rgba(20, 24, 28, 0.38);
   --dot-ring: #f6f6f4;
+  --particle-opacity: 0.3;
 }
 
 * {
