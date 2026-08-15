@@ -83,8 +83,8 @@ export const applyAccent = (id, { persist = true } = {}) => {
     luminance(onPage.base) > 0.45 ? '#14181c' : '#ffffff'
   );
 
-  // Surfaces that stay dark regardless of theme (the terminal, matrix rain)
-  // need the dark-page variant of whatever accent is active.
+  // Surfaces that stay dark regardless of theme (the matrix overlay) need the
+  // dark-page variant of whatever accent is active.
   const onDark = resolveAccent(accent, 'dark');
   root.style.setProperty('--accent-on-dark', onDark.base);
   root.style.setProperty('--accent-on-dark-bright', onDark.bright);

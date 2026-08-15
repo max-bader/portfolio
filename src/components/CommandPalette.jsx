@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { projectsData } from '../data/projects';
-import { EMAIL, PAPER_URL, RESUME_URL } from '../lib/commands';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, PAPER_URL, RESUME_URL } from '../lib/links';
 import {
   accents,
   applyAccent,
@@ -39,7 +39,7 @@ const score = (query, text) => {
 
 const openUrl = (url) => window.open(url, '_blank', 'noopener,noreferrer');
 
-const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
+const CommandPalette = ({ open, onClose, onMatrix }) => {
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
   const [toast, setToast] = useState('');
@@ -60,17 +60,6 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
       { id: 'nav-exp', group: 'Navigate', label: 'Go to Experience & Research', icon: 'fas fa-briefcase', run: scrollTo('experience') },
       { id: 'nav-work', group: 'Navigate', label: 'Go to Projects', icon: 'fas fa-code', run: scrollTo('projects') },
 
-      {
-        id: 'terminal',
-        group: 'Actions',
-        label: 'Launch the terminal',
-        hint: 'Try `neofetch`',
-        icon: 'fas fa-terminal',
-        run: () => {
-          onClose();
-          onOpenTerminal();
-        }
-      },
       {
         id: 'resume',
         group: 'Actions',
@@ -102,14 +91,14 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
         group: 'Actions',
         label: 'Open GitHub profile',
         icon: 'fab fa-github',
-        run: () => openUrl('https://github.com/max-bader')
+        run: () => openUrl(GITHUB_URL)
       },
       {
         id: 'linkedin',
         group: 'Actions',
         label: 'Open LinkedIn profile',
         icon: 'fab fa-linkedin',
-        run: () => openUrl('https://linkedin.com/in/max-bader')
+        run: () => openUrl(LINKEDIN_URL)
       },
 
       ...projectsData.map((project) => ({
@@ -168,7 +157,7 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
         }
       }
     ];
-  }, [onClose, onOpenTerminal, onMatrix, theme]);
+  }, [onClose, onMatrix, theme]);
 
   const results = useMemo(() => {
     if (!query.trim()) return actions;
@@ -193,7 +182,7 @@ const CommandPalette = ({ open, onClose, onOpenTerminal, onMatrix }) => {
     if (!open) return;
     setQuery('');
     setToast('');
-    // The terminal's `appearance` command can change this behind our back.
+    // Re-sync in case the stored theme was applied after this mounted.
     setTheme(currentTheme());
     // Focus after the panel has mounted so the caret lands correctly.
     const id = window.requestAnimationFrame(() => inputRef.current?.focus());

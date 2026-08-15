@@ -32,7 +32,7 @@ const Footer = () => {
         <div className="footer-bottom">
           <p>&copy; {currentYear} Max Bader</p>
           <p className="footer-hint">
-            Press <kbd>⌘</kbd><kbd>K</kbd> for the command palette · <kbd>`</kbd> for the terminal
+            Press <kbd>⌘</kbd><kbd>K</kbd> for the command palette
           </p>
         </div>
       </div>

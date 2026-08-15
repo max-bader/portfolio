@@ -135,39 +135,6 @@
   box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.45);
 }
 
-.hero-terminal-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  height: 45px;
-  padding: 0 1.1rem;
-  background: transparent;
-  border: 1px solid rgba(var(--accent-rgb), 0.45);
-  border-radius: 24px;
-  color: var(--text-light);
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.hero-terminal-cta:hover {
-  color: var(--text-primary);
-  border-color: rgb(var(--accent-rgb-bright));
-  background: rgba(var(--accent-rgb), 0.1);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(var(--accent-rgb), 0.25);
-}
-
-.hero-terminal-cta kbd {
-  font-family: inherit;
-  font-size: 0.75rem;
-  padding: 0.05rem 0.4rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  color: var(--text-secondary);
-}
-
 .hero-scroll-cue {
   position: absolute;
   bottom: 2.25rem;

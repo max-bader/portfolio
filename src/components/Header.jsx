@@ -8,7 +8,7 @@ const NAV_ITEMS = [
   { id: 'projects', label: 'work', number: '03' }
 ];
 
-const Header = ({ onOpenPalette, onOpenTerminal }) => {
+const Header = ({ onOpenPalette }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -60,16 +60,6 @@ const Header = ({ onOpenPalette, onOpenTerminal }) => {
           >
             <i className="fas fa-magnifying-glass" aria-hidden="true" />
             <kbd>⌘K</kbd>
-          </button>
-
-          <button
-            type="button"
-            className="header-action"
-            onClick={onOpenTerminal}
-            aria-label="Open terminal"
-            title="Open terminal (`)"
-          >
-            <i className="fas fa-terminal" aria-hidden="true" />
           </button>
 
           <button

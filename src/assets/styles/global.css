@@ -236,7 +236,7 @@ body {
   opacity: 1;
 }
 
-/* Shared overlay animations (command palette, terminal, matrix) */
+/* Shared overlay animations (command palette, matrix) */
 @keyframes overlay-in {
   from { opacity: 0; }
   to { opacity: 1; }

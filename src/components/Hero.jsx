@@ -1,5 +1,6 @@
 import React from 'react';
 import { socialLinks } from '../data/socialLinks';
+import { RESUME_URL } from '../lib/links';
 import ScrambleText from './ScrambleText';
 import TypeRotator from './TypeRotator';
 import '../assets/styles/Hero.css';
@@ -11,7 +12,7 @@ const ROLES = [
   'AI / ML Researcher'
 ];
 
-const Hero = ({ onOpenTerminal }) => {
+const Hero = () => {
   return (
     <section id="home" className="hero">
       <div className="hero-container">
@@ -46,7 +47,7 @@ const Hero = ({ onOpenTerminal }) => {
               </a>
             ))}
             <a
-              href="/MaxBaderResume copy.pdf"
+              href={RESUME_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"
@@ -54,17 +55,6 @@ const Hero = ({ onOpenTerminal }) => {
             >
               <i className="fas fa-file-alt"></i>
             </a>
-
-            <button
-              type="button"
-              className="hero-terminal-cta"
-              onClick={onOpenTerminal}
-              aria-label="Open terminal"
-            >
-              <i className="fas fa-terminal" aria-hidden="true" />
-              <span>open terminal</span>
-              <kbd>`</kbd>
-            </button>
           </div>
         </div>
 

@@ -5,10 +5,10 @@ import Projects from '../components/Projects';
 import Footer from '../components/Footer';
 import '../assets/styles/HomePage.css';
 
-const HomePage = ({ onOpenTerminal }) => {
+const HomePage = () => {
   return (
     <div className="home-page">
-      <Hero onOpenTerminal={onOpenTerminal} />
+      <Hero />
       <Experience />
       <Projects />
       <Footer />

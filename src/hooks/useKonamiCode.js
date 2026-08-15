@@ -12,7 +12,7 @@ export const useKonamiCode = (onUnlock) => {
 
   useEffect(() => {
     const onKey = (event) => {
-      // Don't compete with the terminal or palette for arrow keys and letters.
+      // Don't compete with the palette for arrow keys and letters.
       const target = event.target;
       if (
         target instanceof HTMLElement &&
