@@ -79,15 +79,19 @@
   position: absolute;
   bottom: -5px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 2px;
   background: var(--gradient-accent);
-  transition: width 0.3s ease;
+  /* Scale rather than width: the underline grows on the compositor instead
+     of relaying out on every frame of every nav hover. */
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
 }
 
 .nav-list a:hover::after,
 .nav-list a.is-active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 .header-actions {
