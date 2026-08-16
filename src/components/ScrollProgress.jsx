@@ -1,27 +1,26 @@
-import React, { useRef } from 'react';
-import { gsap, useGSAP } from '../lib/gsap';
+import React, { useEffect, useRef } from 'react';
 
 /** Accent bar across the top of the page tracking read progress. */
 const ScrollProgress = () => {
   const barRef = useRef(null);
 
-  useGSAP(() => {
-    // Scrubbed rather than listener-driven: ScrollTrigger reads scroll once
-    // per frame for every trigger on the page instead of once per handler.
-    //
-    // Deliberately not behind a reduced-motion check — this reports scroll
-    // position, like a scrollbar, rather than adding decorative movement.
-    gsap.to(barRef.current, {
-      scaleX: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: document.documentElement,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true
+  useEffect(() => {
+    const update = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      if (barRef.current) {
+        barRef.current.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
       }
-    });
-  });
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   return (
     <div className="scroll-progress" aria-hidden="true">

@@ -1,49 +1,47 @@
-import React, { useRef } from 'react';
-import { gsap, motionContext, useGSAP } from '../lib/gsap';
+import React, { useEffect, useState } from 'react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
-const TYPE_PER_CHAR = 0.055;
-const DELETE_PER_CHAR = 0.028;
-const HOLD = 1.9;
+const TYPE_MS = 55;
+const DELETE_MS = 28;
+const HOLD_MS = 1900;
 
-/**
- * Types each phrase out, holds, deletes, moves on — as one looping timeline
- * rather than a chain of setTimeouts, so it can be delayed to land after the
- * hero entrance and is paused/killed as a unit.
- */
-const TypeRotator = ({ phrases, className = '', delay = 0 }) => {
-  const textRef = useRef(null);
+/** Types each phrase out, holds, deletes, moves on. */
+const TypeRotator = ({ phrases, className = '' }) => {
+  const reducedMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const [length, setLength] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
-  useGSAP(
-    () => {
-      motionContext(textRef, (context) => {
-        // Reduced motion keeps the first phrase, already in the markup.
-        if (!context.conditions.motion) return;
+  useEffect(() => {
+    if (reducedMotion) return undefined;
 
-        const tl = gsap.timeline({ repeat: -1, delay });
-        tl.set(textRef.current, { text: '' });
+    const phrase = phrases[index % phrases.length];
 
-        phrases.forEach((phrase) => {
-          tl.to(textRef.current, {
-            duration: phrase.length * TYPE_PER_CHAR,
-            text: { value: phrase, delimiter: '' },
-            ease: 'none'
-          })
-            .to({}, { duration: HOLD })
-            .to(textRef.current, {
-              duration: phrase.length * DELETE_PER_CHAR,
-              text: { value: '', delimiter: '' },
-              ease: 'none'
-            });
-        });
-      });
-    },
-    { scope: textRef, dependencies: [phrases, delay] }
-  );
+    if (!deleting && length === phrase.length) {
+      const id = window.setTimeout(() => setDeleting(true), HOLD_MS);
+      return () => window.clearTimeout(id);
+    }
+
+    if (deleting && length === 0) {
+      setDeleting(false);
+      setIndex((i) => (i + 1) % phrases.length);
+      return undefined;
+    }
+
+    const id = window.setTimeout(
+      () => setLength((l) => l + (deleting ? -1 : 1)),
+      deleting ? DELETE_MS : TYPE_MS
+    );
+    return () => window.clearTimeout(id);
+  }, [phrases, index, length, deleting, reducedMotion]);
+
+  if (reducedMotion) {
+    return <span className={className}>{phrases[0]}</span>;
+  }
 
   return (
     <span className={className}>
-      {/* Seeded with the first phrase so no-JS and screen readers get text. */}
-      <span ref={textRef}>{phrases[0]}</span>
+      {phrases[index % phrases.length].slice(0, length)}
       <span className="type-caret" aria-hidden="true" />
     </span>
   );
