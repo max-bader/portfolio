@@ -9,6 +9,10 @@ const WORLDS = [
   { path: '/manual', label: 'Manual', title: 'Boxed-software reference manual' },
   { path: '/riso', label: 'Riso', title: 'Risograph print' },
   { path: '/paper', label: 'Paper', title: 'arXiv preprint' },
+  { path: '/metro', label: 'Metro', title: 'Transit network map' },
+  { path: '/pcb', label: 'PCB', title: 'Printed circuit board' },
+  { path: '/score', label: 'Score', title: 'Engraved musical score' },
+  { path: '/reel', label: 'Reel', title: 'Video editor timeline' },
   { path: '/classic', label: 'Classic', title: 'The previous site' }
 ];
 

@@ -10,6 +10,10 @@ import BoardWorld from './worlds/board/BoardWorld';
 import ManualWorld from './worlds/manual/ManualWorld';
 import RisoWorld from './worlds/riso/RisoWorld';
 import PaperWorld from './worlds/paper/PaperWorld';
+import MetroWorld from './worlds/metro/MetroWorld';
+import PcbWorld from './worlds/pcb/PcbWorld';
+import ScoreWorld from './worlds/score/ScoreWorld';
+import ReelWorld from './worlds/reel/ReelWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -57,6 +61,10 @@ function App() {
         <Route path="/manual" element={<ManualWorld />} />
         <Route path="/riso" element={<RisoWorld />} />
         <Route path="/paper" element={<PaperWorld />} />
+        <Route path="/metro" element={<MetroWorld />} />
+        <Route path="/pcb" element={<PcbWorld />} />
+        <Route path="/score" element={<ScoreWorld />} />
+        <Route path="/reel" element={<ReelWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>
