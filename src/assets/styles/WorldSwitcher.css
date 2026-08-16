@@ -1,0 +1,55 @@
+.world-switcher {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(12, 14, 16, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+}
+
+.world-switcher-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-right: 0.4rem;
+}
+
+.world-switcher-link {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.62);
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.world-switcher-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.world-switcher-link.is-active {
+  color: #0b0d0f;
+  background: #f4f5f6;
+}
+
+@media (max-width: 560px) {
+  .world-switcher-label {
+    display: none;
+  }
+
+  .world-switcher {
+    padding-left: 0.35rem;
+  }
+}

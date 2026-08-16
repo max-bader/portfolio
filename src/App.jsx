@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import ParticleField from './components/ParticleField';
-import Cursor from './components/Cursor';
-import ScrollProgress from './components/ScrollProgress';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import CommandPalette from './components/CommandPalette';
 import MatrixRain from './components/MatrixRain';
+import WorldSwitcher from './components/WorldSwitcher';
+import ClassicWorld from './worlds/ClassicWorld';
+import DraftWorld from './worlds/draft/DraftWorld';
+import GraphWorld from './worlds/graph/GraphWorld';
+import BoardWorld from './worlds/board/BoardWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
-import './assets/styles/global.css';
 import './App.css';
 
 function App() {
@@ -17,7 +17,6 @@ function App() {
 
   const startMatrix = useCallback(() => setMatrixOn(true), []);
 
-  // Restore the visitor's saved accent and theme before anything paints.
   useEffect(() => {
     applyAccent(readStoredAccent().id, { persist: false });
     applyTheme(readStoredTheme(), { persist: false });
@@ -28,18 +27,15 @@ function App() {
   useEffect(() => {
     const onKey = (event) => {
       const mod = event.metaKey || event.ctrlKey;
-
       if (mod && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         setPaletteOpen((open) => !open);
       }
     };
-
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Keep the page behind the overlays from scrolling.
   useEffect(() => {
     const locked = paletteOpen || matrixOn;
     document.body.style.overflow = locked ? 'hidden' : '';
@@ -50,15 +46,16 @@ function App() {
 
   return (
     <div className="App">
-      <ParticleField />
-      <Cursor />
-      <ScrollProgress />
+      <Routes>
+        <Route path="/" element={<Navigate to="/draft" replace />} />
+        <Route path="/draft" element={<DraftWorld />} />
+        <Route path="/graph" element={<GraphWorld />} />
+        <Route path="/board" element={<BoardWorld />} />
+        <Route path="/classic" element={<ClassicWorld />} />
+        <Route path="*" element={<Navigate to="/draft" replace />} />
+      </Routes>
 
-      <Header onOpenPalette={() => setPaletteOpen(true)} />
-
-      <main>
-        <HomePage />
-      </main>
+      <WorldSwitcher />
 
       <CommandPalette
         open={paletteOpen}
