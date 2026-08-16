@@ -7,6 +7,9 @@ import ClassicWorld from './worlds/ClassicWorld';
 import DraftWorld from './worlds/draft/DraftWorld';
 import GraphWorld from './worlds/graph/GraphWorld';
 import BoardWorld from './worlds/board/BoardWorld';
+import ManualWorld from './worlds/manual/ManualWorld';
+import RisoWorld from './worlds/riso/RisoWorld';
+import PaperWorld from './worlds/paper/PaperWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -51,6 +54,9 @@ function App() {
         <Route path="/draft" element={<DraftWorld />} />
         <Route path="/graph" element={<GraphWorld />} />
         <Route path="/board" element={<BoardWorld />} />
+        <Route path="/manual" element={<ManualWorld />} />
+        <Route path="/riso" element={<RisoWorld />} />
+        <Route path="/paper" element={<PaperWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>

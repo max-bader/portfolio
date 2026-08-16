@@ -1,0 +1,388 @@
+/* World: risograph print.
+   Two fluorescent spot inks multiplying over toothy paper. Flat colour only —
+   a Riso cannot print a gradient, so neither can this page. */
+
+.rw {
+  --paper: #f2ede1;
+  --pink: #ff48a0;
+  --blue: #1246c8;
+  --key: #17151a;
+  --key-dim: #55505c;
+
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 5rem) 8rem;
+  background-color: var(--paper);
+  /* Paper tooth: offset dot screens, not a decorative tech grid. Riso prints
+     onto rough uncoated stock, and the grain is what makes the inks read as
+     ink rather than as flat web colour. */
+  background-image:
+    radial-gradient(rgba(23, 21, 26, 0.055) 1px, transparent 1px),
+    radial-gradient(rgba(23, 21, 26, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 2px 2px;
+  color: var(--key);
+  font-family: 'Archivo', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* --- cut-paper shapes --- */
+.rw-shapes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rw-shape {
+  position: absolute;
+  mix-blend-mode: multiply;
+}
+
+.rw-shape-disc {
+  width: clamp(180px, 26vw, 400px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--pink);
+  top: -6%;
+  right: 6%;
+  opacity: 0.85;
+}
+
+.rw-shape-bar {
+  width: clamp(120px, 20vw, 300px);
+  height: clamp(120px, 20vw, 300px);
+  background: var(--blue);
+  top: 18%;
+  right: 2%;
+  opacity: 0.8;
+}
+
+.rw-shape-arc {
+  width: clamp(160px, 24vw, 340px);
+  aspect-ratio: 1;
+  border-radius: 50% 50% 50% 0;
+  background: var(--pink);
+  bottom: 8%;
+  left: -6%;
+  opacity: 0.55;
+}
+
+/* --- misregistered lettering --- */
+.rw-mis {
+  position: relative;
+  display: inline-block;
+}
+
+.rw-mis-layer {
+  display: block;
+  grid-area: 1 / 1;
+}
+
+.rw-mis .rw-mis-layer:not(.rw-mis-key) {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.rw-ink-pink {
+  color: var(--pink);
+  transform: translate(-4px, -3px);
+}
+
+.rw-ink-blue {
+  color: var(--blue);
+  transform: translate(4px, 3px);
+}
+
+.rw-mis-key {
+  position: relative;
+  color: var(--key);
+}
+
+/* --- head --- */
+.rw-head {
+  position: relative;
+  z-index: 1;
+  max-width: 62ch;
+}
+
+.rw-title {
+  font-size: clamp(3.4rem, 13vw, 10rem);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  margin: 0 0 1.75rem;
+  text-transform: uppercase;
+}
+
+.rw-title .rw-mis {
+  display: block;
+}
+
+.rw-standfirst {
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  line-height: 1.45;
+  font-weight: 500;
+  max-width: 40ch;
+  margin: 0 0 2rem;
+}
+
+.rw-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+}
+
+.rw-stat {
+  background: var(--blue);
+  color: var(--paper);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  mix-blend-mode: multiply;
+}
+
+.rw-stat b {
+  font-size: 1.05rem;
+  margin-right: 0.3rem;
+}
+
+.rw-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.rw-links a,
+.rw-foot a,
+.rw-card-link {
+  color: var(--key);
+  text-decoration: none;
+  box-shadow: inset 0 -0.4em 0 rgba(255, 72, 160, 0.45);
+  transition: box-shadow 0.15s ease;
+}
+
+.rw-links a:hover,
+.rw-foot a:hover,
+.rw-card-link:hover {
+  box-shadow: inset 0 -1em 0 rgba(255, 72, 160, 0.55);
+}
+
+/* --- sections --- */
+.rw-section {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.rw-section-title {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--key);
+}
+
+/* --- roles --- */
+.rw-roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rw-role {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(23, 21, 26, 0.2);
+  max-width: 78ch;
+}
+
+.rw-role-date {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--blue);
+  margin: 0;
+  padding-top: 0.35rem;
+}
+
+.rw-role h3 {
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  font-weight: 800;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.rw-role h3 a {
+  color: var(--key);
+  text-decoration: none;
+  box-shadow: inset 0 -0.32em 0 rgba(18, 70, 200, 0.28);
+}
+
+.rw-role h3 a:hover {
+  box-shadow: inset 0 -0.8em 0 rgba(18, 70, 200, 0.35);
+}
+
+.rw-now {
+  display: inline-block;
+  margin-left: 0.6rem;
+  background: var(--pink);
+  color: var(--paper);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  vertical-align: middle;
+  mix-blend-mode: multiply;
+}
+
+.rw-role-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--key-dim);
+  margin: 0 0 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.rw-role-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--key-dim);
+  margin: 0 0 0.8rem;
+}
+
+.rw-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rw-tags li {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--key);
+  padding: 0.15rem 0.5rem;
+}
+
+/* --- cards --- */
+.rw-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.rw-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.rw-plates {
+  position: relative;
+  margin-bottom: 1rem;
+  border: 2px solid var(--key);
+}
+
+.rw-plates img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.25);
+  mix-blend-mode: multiply;
+}
+
+.rw-plate {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.rw-plate-pink { background: var(--pink); opacity: 0.42; }
+.rw-plate-blue { background: var(--blue); opacity: 0.3; }
+
+.rw-card h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.rw-card p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--key-dim);
+  margin: 0 0 0.85rem;
+}
+
+.rw-card .rw-tags {
+  margin-bottom: 1rem;
+}
+
+.rw-card-link {
+  margin-top: auto;
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* --- foot --- */
+.rw-foot {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.rw-foot-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 0 0 2rem;
+}
+
+.rw-colophon {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--key-dim);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* A careful print run holds perfect registration. */
+  .rw-ink-pink,
+  .rw-ink-blue {
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .rw-role {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .rw-shape-bar { display: none; }
+}

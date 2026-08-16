@@ -3,9 +3,12 @@ import { NavLink } from 'react-router-dom';
 import '../assets/styles/WorldSwitcher.css';
 
 const WORLDS = [
-  { path: '/draft', label: 'Draft', title: 'Engineering drawing' },
-  { path: '/graph', label: 'Graph', title: 'Commit graph' },
-  { path: '/board', label: 'Board', title: 'Departure board' },
+  { path: '/draft', label: 'Draft', title: 'Cyanotype engineering drawing' },
+  { path: '/graph', label: 'Graph', title: 'Git commit graph' },
+  { path: '/board', label: 'Board', title: 'Split-flap departure board' },
+  { path: '/manual', label: 'Manual', title: 'Boxed-software reference manual' },
+  { path: '/riso', label: 'Riso', title: 'Risograph print' },
+  { path: '/paper', label: 'Paper', title: 'arXiv preprint' },
   { path: '/classic', label: 'Classic', title: 'The previous site' }
 ];
 
