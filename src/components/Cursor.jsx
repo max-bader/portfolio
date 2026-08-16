@@ -1,64 +1,59 @@
-import React, { useEffect, useRef } from 'react';
-import { useReducedMotion } from '../hooks/useReducedMotion';
+import React, { useRef } from 'react';
+import { gsap, useGSAP } from '../lib/gsap';
 import '../assets/styles/Cursor.css';
 
 const INTERACTIVE = 'a, button, input, textarea, [role="button"], .technology-tag, .skill-item';
 
 /**
  * Two-part cursor: a soft accent aura that trails behind, and a crisp dot that
- * tracks exactly. Both are written straight to the DOM on rAF so pointer moves
- * never re-render React.
+ * tracks exactly. quickTo keeps a single reusable tween per property, so
+ * pointer moves never allocate and never re-render React.
  */
 const Cursor = () => {
   const auraRef = useRef(null);
   const dotRef = useRef(null);
-  const reducedMotion = useReducedMotion();
 
-  useEffect(() => {
+  useGSAP(() => {
     // Touch devices have no cursor to decorate.
     if (window.matchMedia('(hover: none)').matches) return;
 
     const aura = auraRef.current;
     const dot = dotRef.current;
-    if (!aura || !dot) return;
 
-    const target = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    const eased = { ...target };
-    let frame = 0;
-    let scale = 1;
-    let targetScale = 1;
+    gsap.set([aura, dot], { xPercent: -50, yPercent: -50 });
+
+    // Reduced motion still gets a cursor, it just snaps instead of trailing.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const trail = reduced ? 0 : 0.5;
+    const track = reduced ? 0 : 0.12;
+
+    const auraX = gsap.quickTo(aura, 'x', { duration: trail, ease: 'power3' });
+    const auraY = gsap.quickTo(aura, 'y', { duration: trail, ease: 'power3' });
+    const dotX = gsap.quickTo(dot, 'x', { duration: track, ease: 'power3' });
+    const dotY = gsap.quickTo(dot, 'y', { duration: track, ease: 'power3' });
+    const auraScale = gsap.quickTo(aura, 'scale', { duration: reduced ? 0 : 0.4, ease: 'power2' });
 
     const onMove = (event) => {
-      target.x = event.clientX;
-      target.y = event.clientY;
-      dot.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
+      auraX(event.clientX);
+      auraY(event.clientY);
+      dotX(event.clientX);
+      dotY(event.clientY);
     };
 
     const onOver = (event) => {
-      targetScale = event.target.closest?.(INTERACTIVE) ? 1.9 : 1;
-    };
-
-    const render = () => {
-      const ease = reducedMotion ? 1 : 0.14;
-      eased.x += (target.x - eased.x) * ease;
-      eased.y += (target.y - eased.y) * ease;
-      scale += (targetScale - scale) * 0.12;
-      aura.style.transform = `translate(${eased.x}px, ${eased.y}px) translate(-50%, -50%) scale(${scale})`;
-      frame = window.requestAnimationFrame(render);
+      auraScale(event.target.closest?.(INTERACTIVE) ? 1.9 : 1);
     };
 
     document.body.classList.add('has-custom-cursor');
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('pointerover', onOver, { passive: true });
-    frame = window.requestAnimationFrame(render);
 
     return () => {
       document.body.classList.remove('has-custom-cursor');
-      window.cancelAnimationFrame(frame);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerover', onOver);
     };
-  }, [reducedMotion]);
+  });
 
   return (
     <>

@@ -4,13 +4,8 @@
   overflow: visible;
   transition: var(--transition);
   border: none;
-  border-left: 3px solid var(--primary-color);
   padding-left: 2rem;
   position: relative;
-}
-
-.project-card:hover {
-  border-left-color: var(--accent-color);
 }
 
 .project-card::before {

@@ -199,17 +199,33 @@ body {
   box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.6);
 }
 
-/* Scroll-triggered reveals (see components/Reveal.jsx) */
-.reveal {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.3, 1),
-    transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+/* Reveals are driven entirely by GSAP (see components/Reveal.jsx). No hidden
+   state here on purpose: markup that never gets JS should still render. */
+
+/* Timeline spine shared by experience and project cards. A real element
+   rather than border-left so ScrollTrigger can scrub it drawing itself. */
+.card-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--primary-color);
+  transform-origin: top center;
+  transition: background-color 0.3s ease;
+  pointer-events: none;
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+.experience-card:hover .card-spine,
+.project-card:hover .card-spine {
+  background: var(--accent-color);
+}
+
+/* SplitText pieces need their own box to be transformed independently. */
+.split-char,
+.split-word {
+  display: inline-block;
+  will-change: transform;
 }
 
 /* Cursor-following glow shared by experience and project cards */
@@ -257,12 +273,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 
   *,

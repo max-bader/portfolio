@@ -1,39 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { ScrollTrigger, useGSAP } from '../lib/gsap';
 
 /**
  * Scroll spy. Returns the id of whichever section currently owns the
  * viewport, so the nav can highlight it.
+ *
+ * One ScrollTrigger per section rather than a scroll listener: onEnter and
+ * onEnterBack cover both directions, and ScrollTrigger already batches its
+ * position reads into a single measurement per frame.
  */
-export const useActiveSection = (sectionIds, offset = 120) => {
+export const useActiveSection = (sectionIds) => {
   const [activeId, setActiveId] = useState(sectionIds[0]);
 
-  useEffect(() => {
-    const findActive = () => {
-      let current = sectionIds[0];
-
+  useGSAP(
+    () => {
       sectionIds.forEach((id) => {
         const el = document.getElementById(id);
         if (!el) return;
-        if (el.getBoundingClientRect().top <= offset) current = id;
+
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 40%',
+          end: 'bottom 40%',
+          onEnter: () => setActiveId(id),
+          onEnterBack: () => setActiveId(id)
+        });
       });
-
-      // The last section rarely reaches the top of the viewport, so claim it
-      // once we've hit the bottom of the page.
-      const atBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 4;
-      if (atBottom) current = sectionIds[sectionIds.length - 1];
-
-      setActiveId(current);
-    };
-
-    findActive();
-    window.addEventListener('scroll', findActive, { passive: true });
-    window.addEventListener('resize', findActive);
-    return () => {
-      window.removeEventListener('scroll', findActive);
-      window.removeEventListener('resize', findActive);
-    };
-  }, [sectionIds, offset]);
+    },
+    { dependencies: [sectionIds] }
+  );
 
   return activeId;
 };

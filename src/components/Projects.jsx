@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
+import SectionTitle from './SectionTitle';
 import { projectsData } from '../data/projects';
+import { GITHUB_URL } from '../lib/links';
+import { useScrollSkew } from '../hooks/useScrollSkew';
 import '../assets/styles/Projects.css';
 
 const Projects = () => {
+  const root = useRef(null);
+
+  useScrollSkew(root, '.project-card', { max: 4 });
+
   return (
-    <section className="projects">
+    <section className="projects" ref={root}>
       <div id="projects" className="container">
         <Reveal>
           <div className="projects-header">
-            <h2 className="section-title">My Projects</h2>
+            <SectionTitle>My Projects</SectionTitle>
             <a
-              href="https://github.com/max-bader"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="github-link"
