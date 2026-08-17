@@ -21,6 +21,10 @@ import VitrineWorld from './worlds/vitrine/VitrineWorld';
 import TicketWorld from './worlds/ticket/TicketWorld';
 import PressWorld from './worlds/press/PressWorld';
 import TeletextWorld from './worlds/teletext/TeletextWorld';
+import SeedWorld from './worlds/seed/SeedWorld';
+import CassetteWorld from './worlds/cassette/CassetteWorld';
+import ReceiptWorld from './worlds/receipt/ReceiptWorld';
+import RadarWorld from './worlds/radar/RadarWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -79,6 +83,10 @@ function App() {
         <Route path="/ticket" element={<TicketWorld />} />
         <Route path="/press" element={<PressWorld />} />
         <Route path="/teletext" element={<TeletextWorld />} />
+        <Route path="/seed" element={<SeedWorld />} />
+        <Route path="/cassette" element={<CassetteWorld />} />
+        <Route path="/receipt" element={<ReceiptWorld />} />
+        <Route path="/radar" element={<RadarWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>

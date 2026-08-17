@@ -20,6 +20,10 @@ const WORLDS = [
   { path: '/ticket', label: 'Ticket', title: 'Airline itinerary' },
   { path: '/press', label: 'Press', title: 'Letterpress poster' },
   { path: '/teletext', label: 'Teletext', title: 'Broadcast teletext' },
+  { path: '/seed', label: 'Seed', title: 'Botanical field guide' },
+  { path: '/cassette', label: 'Cassette', title: 'Mixtape J-card' },
+  { path: '/receipt', label: 'Receipt', title: 'Thermal till receipt' },
+  { path: '/radar', label: 'Radar', title: 'PPI radar display' },
   { path: '/classic', label: 'Classic', title: 'The previous site' }
 ];
 
