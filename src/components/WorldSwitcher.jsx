@@ -13,6 +13,9 @@ const WORLDS = [
   { path: '/pcb', label: 'PCB', title: 'Printed circuit board' },
   { path: '/score', label: 'Score', title: 'Engraved musical score' },
   { path: '/reel', label: 'Reel', title: 'Video editor timeline' },
+  { path: '/scope', label: 'Scope', title: 'Storage oscilloscope' },
+  { path: '/atlas', label: 'Atlas', title: 'Celestial chart' },
+  { path: '/arcade', label: 'Arcade', title: 'Arcade attract mode' },
   { path: '/classic', label: 'Classic', title: 'The previous site' }
 ];
 

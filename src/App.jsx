@@ -14,6 +14,9 @@ import MetroWorld from './worlds/metro/MetroWorld';
 import PcbWorld from './worlds/pcb/PcbWorld';
 import ScoreWorld from './worlds/score/ScoreWorld';
 import ReelWorld from './worlds/reel/ReelWorld';
+import ScopeWorld from './worlds/scope/ScopeWorld';
+import AtlasWorld from './worlds/atlas/AtlasWorld';
+import ArcadeWorld from './worlds/arcade/ArcadeWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -65,6 +68,9 @@ function App() {
         <Route path="/pcb" element={<PcbWorld />} />
         <Route path="/score" element={<ScoreWorld />} />
         <Route path="/reel" element={<ReelWorld />} />
+        <Route path="/scope" element={<ScopeWorld />} />
+        <Route path="/atlas" element={<AtlasWorld />} />
+        <Route path="/arcade" element={<ArcadeWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>
