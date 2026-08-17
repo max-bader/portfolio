@@ -1,0 +1,163 @@
+/* World: broadcast teletext. Seven colours at full saturation on pure black,
+   one monospaced size, a fixed column grid. No greys, because the format
+   had none. */
+
+.tt {
+  --black: #000;
+  --tt-white: #fff;
+  --tt-red: #f00;
+  --tt-green: #0f0;
+  --tt-yellow: #ff0;
+  --tt-blue: #00f;
+  --tt-magenta: #f0f;
+  --tt-cyan: #0ff;
+
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3rem) 1rem 8rem;
+  background: #101014;
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+  display: flex;
+  justify-content: center;
+}
+
+/* The set: a CRT in a case. */
+.tt-set {
+  width: min(62rem, 100%);
+  background: #1b1b20;
+  border-radius: 14px;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+  height: fit-content;
+}
+
+.tt-screen {
+  background: var(--black);
+  border-radius: 6px;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  font-size: clamp(0.78rem, 1.55vw, 1.05rem);
+  line-height: 1.5;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanlines belong to the tube. */
+.tt-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 3px);
+}
+
+.tt-status {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--tt-blue);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.tt-page {
+  min-height: 24rem;
+}
+
+.tt-row {
+  margin: 0;
+  white-space: pre-wrap;
+  letter-spacing: 0.06em;
+}
+
+.tt-blank {
+  height: 0.75em;
+}
+
+/* Double-height rows: teletext's only other size. */
+.tt-double {
+  font-size: 2em;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.tt-body {
+  text-transform: uppercase;
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.tt-white { color: var(--tt-white); }
+.tt-red { color: var(--tt-red); }
+.tt-green { color: var(--tt-green); }
+.tt-yellow { color: var(--tt-yellow); }
+.tt-blue { color: var(--tt-blue); }
+.tt-magenta { color: var(--tt-magenta); }
+.tt-cyan { color: var(--tt-cyan); }
+
+.tt-jump {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tt-jump:hover {
+  background: currentColor;
+  color: var(--black) !important;
+}
+
+/* Fastext: the four coloured keys, plus index. */
+.tt-fastext {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 2px;
+  margin-top: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tt-fast {
+  border: none;
+  padding: 0.5rem 0.4rem;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: currentColor;
+  cursor: pointer;
+  position: relative;
+}
+
+/* The label sits knocked out of the colour bar. */
+.tt-fast::after {
+  content: attr(data-label);
+}
+
+.tt-fast {
+  color: var(--tt-white);
+}
+
+.tt-fast.tt-white { color: var(--tt-white); }
+.tt-fast.tt-cyan { color: var(--tt-cyan); }
+.tt-fast.tt-green { color: var(--tt-green); }
+.tt-fast.tt-yellow { color: var(--tt-yellow); }
+.tt-fast.tt-magenta { color: var(--tt-magenta); }
+
+.tt-fast {
+  -webkit-text-fill-color: #000;
+  text-shadow: none;
+}
+
+.tt-fast.is-on {
+  outline: 3px solid var(--tt-white);
+  outline-offset: -3px;
+}
+
+@media (max-width: 520px) {
+  .tt-double { font-size: 1.5em; }
+}

@@ -17,6 +17,10 @@ import ReelWorld from './worlds/reel/ReelWorld';
 import ScopeWorld from './worlds/scope/ScopeWorld';
 import AtlasWorld from './worlds/atlas/AtlasWorld';
 import ArcadeWorld from './worlds/arcade/ArcadeWorld';
+import VitrineWorld from './worlds/vitrine/VitrineWorld';
+import TicketWorld from './worlds/ticket/TicketWorld';
+import PressWorld from './worlds/press/PressWorld';
+import TeletextWorld from './worlds/teletext/TeletextWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -71,6 +75,10 @@ function App() {
         <Route path="/scope" element={<ScopeWorld />} />
         <Route path="/atlas" element={<AtlasWorld />} />
         <Route path="/arcade" element={<ArcadeWorld />} />
+        <Route path="/vitrine" element={<VitrineWorld />} />
+        <Route path="/ticket" element={<TicketWorld />} />
+        <Route path="/press" element={<PressWorld />} />
+        <Route path="/teletext" element={<TeletextWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>

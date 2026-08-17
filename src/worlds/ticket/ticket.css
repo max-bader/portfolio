@@ -1,0 +1,322 @@
+/* World: airline itinerary. Thermal-stock white, one carrier blue, red only
+   for a live segment. Every rule is a printed rule, so nothing is soft. */
+
+.tk {
+  --stock: #f4f3ef;
+  --card: #ffffff;
+  --ink: #14161c;
+  --ink-dim: #55596a;
+  --ink-faint: #8f94a4;
+  --carrier: #123d8f;
+  --live: #c8362b;
+  --rule: #d5d7de;
+
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 4rem) 8rem;
+  background:
+    repeating-linear-gradient(90deg, rgba(20, 22, 28, 0.018) 0 2px, transparent 2px 4px),
+    var(--stock);
+  color: var(--ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+}
+
+.tk-carrier,
+.tk-route,
+.tk-field em,
+.tk-code,
+.tk-tag-no,
+.tk-baggage {
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+}
+
+/* --- header --- */
+.tk-header {
+  max-width: 62ch;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.tk-carrier {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  color: var(--carrier);
+  margin: 0 0 1rem;
+}
+
+.tk-header h1 {
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin: 0 0 0.75rem;
+}
+
+.tk-route {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  margin: 0 0 1.5rem;
+}
+
+.tk-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.tk-links a,
+.tk-foot a,
+.tk-tag a {
+  color: var(--carrier);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 61, 143, 0.4);
+}
+
+.tk-links a:hover,
+.tk-foot a:hover,
+.tk-tag a:hover {
+  border-bottom-color: var(--carrier);
+}
+
+/* --- boarding passes --- */
+.tk-passes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 78ch;
+}
+
+.tk-pass {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14px 12rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  box-shadow: 0 2px 0 rgba(20, 22, 28, 0.06);
+}
+
+.tk-pass.is-boarding {
+  border-color: var(--live);
+}
+
+.tk-main {
+  padding: 1.1rem 1.25rem;
+}
+
+.tk-row {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.tk-row-top {
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0.9rem;
+}
+
+.tk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tk-field em {
+  font-style: normal;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.tk-pass.is-boarding .tk-status {
+  color: var(--live);
+}
+
+.tk-row-main {
+  align-items: center;
+  gap: 1rem;
+}
+
+.tk-code {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--carrier);
+  line-height: 1;
+}
+
+.tk-arrow {
+  color: var(--ink-faint);
+  font-size: 1.1rem;
+}
+
+.tk-dest {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tk-dest a {
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  line-height: 1.2;
+}
+
+.tk-dest a:hover {
+  border-bottom-color: var(--carrier);
+}
+
+.tk-dest em {
+  font-style: normal;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+}
+
+.tk-note {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 0.9rem 0 0;
+  max-width: 58ch;
+}
+
+.tk-baggage {
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  margin: 0.6rem 0 0;
+  line-height: 1.55;
+}
+
+/* Perforation: dots punched through the stock. */
+.tk-perf {
+  background-image: radial-gradient(circle, var(--stock) 3px, transparent 3.5px);
+  background-size: 14px 12px;
+  background-position: center;
+  background-repeat: repeat-y;
+  border-left: 1px dashed var(--rule);
+  border-right: 1px dashed var(--rule);
+}
+
+.tk-stub {
+  padding: 1.1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: linear-gradient(180deg, rgba(18, 61, 143, 0.05), transparent);
+}
+
+.tk-barcode {
+  margin-top: auto;
+  height: 2.6rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 2px,
+    transparent 2px 4px,
+    var(--ink) 4px 5px,
+    transparent 5px 9px
+  );
+}
+
+/* --- baggage claim --- */
+.tk-section {
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 1.75rem;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.tk-claim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1.25rem;
+}
+
+.tk-tag {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tk-tag-no {
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--carrier);
+  margin: 0 0 0.6rem;
+}
+
+.tk-tag img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  margin-bottom: 0.75rem;
+}
+
+.tk-tag h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+}
+
+.tk-tag .tk-note {
+  margin-top: 0;
+}
+
+.tk-tag a {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding-top: 0.8rem;
+}
+
+/* --- foot --- */
+.tk-foot {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule);
+  max-width: 62ch;
+}
+
+@media (max-width: 720px) {
+  .tk-pass {
+    grid-template-columns: 1fr;
+  }
+
+  .tk-perf {
+    height: 14px;
+    border: none;
+    border-top: 1px dashed var(--rule);
+    border-bottom: 1px dashed var(--rule);
+    background-repeat: repeat-x;
+  }
+
+  .tk-stub {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: flex-end;
+  }
+
+  .tk-barcode {
+    margin-top: 0;
+    flex: 1;
+    min-width: 8rem;
+    height: 2rem;
+  }
+}

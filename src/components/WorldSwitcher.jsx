@@ -16,6 +16,10 @@ const WORLDS = [
   { path: '/scope', label: 'Scope', title: 'Storage oscilloscope' },
   { path: '/atlas', label: 'Atlas', title: 'Celestial chart' },
   { path: '/arcade', label: 'Arcade', title: 'Arcade attract mode' },
+  { path: '/vitrine', label: 'Vitrine', title: 'Museum exhibition' },
+  { path: '/ticket', label: 'Ticket', title: 'Airline itinerary' },
+  { path: '/press', label: 'Press', title: 'Letterpress poster' },
+  { path: '/teletext', label: 'Teletext', title: 'Broadcast teletext' },
   { path: '/classic', label: 'Classic', title: 'The previous site' }
 ];
 

@@ -1,0 +1,244 @@
+/* World: letterpress wood-type poster. Newsprint stock, two inks, type set
+   to the full measure. Impression texture, never a drop shadow. */
+
+.pr {
+  --stock: #efe7d6;
+  --ink: #191512;
+  --ink-dim: #4c433a;
+  --ink-faint: #8b8070;
+  --red: #b4331f;
+
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 3.5rem) 8rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(25, 21, 18, 0.022) 0 1px, transparent 1px 3px),
+    var(--stock);
+  color: var(--ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.pr-overline,
+.pr-meta,
+.pr-setting,
+.pr-no {
+  font-family: 'Chivo Mono', ui-monospace, monospace;
+}
+
+/* --- the bill --- */
+.pr-bill {
+  border: 3px solid var(--ink);
+  padding: clamp(1rem, 3vw, 2rem);
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.pr-overline {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 0 0 0.75rem;
+  text-align: center;
+}
+
+.pr-display {
+  margin: 0;
+  text-align: center;
+}
+
+/* Wood type: set to the measure, so the two words are different sizes. */
+.pr-line {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.8;
+  letter-spacing: -0.005em;
+}
+
+.pr-line-a {
+  font-size: clamp(4rem, 20vw, 13rem);
+  color: var(--ink);
+}
+
+.pr-line-b {
+  font-size: clamp(3.4rem, 17.5vw, 11.5rem);
+  color: var(--red);
+}
+
+.pr-rule {
+  display: block;
+  height: 4px;
+  background: var(--ink);
+  margin: 1.1rem 0;
+}
+
+.pr-sub {
+  text-align: center;
+  font-size: clamp(0.82rem, 1.7vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.pr-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.pr-links a,
+.pr-colophon a,
+.pr-cut a,
+.pr-entry h3 a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid var(--red);
+}
+
+.pr-links a:hover,
+.pr-colophon a:hover,
+.pr-cut a:hover,
+.pr-entry h3 a:hover {
+  color: var(--red);
+}
+
+/* --- programme --- */
+.pr-bill-matter {
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.pr-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--ink);
+}
+
+.pr-entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pr-entry {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid rgba(25, 21, 18, 0.28);
+  max-width: 80ch;
+}
+
+.pr-no {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--red);
+  padding-top: 0.4rem;
+}
+
+.pr-entry h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.3rem;
+  line-height: 1;
+}
+
+.pr-meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  margin: 0 0 0.7rem;
+  text-transform: uppercase;
+}
+
+.pr-meta em {
+  font-style: normal;
+  color: var(--red);
+}
+
+.pr-body {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin: 0 0 0.6rem;
+  max-width: 62ch;
+}
+
+.pr-setting {
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* --- cuts --- */
+.pr-cuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.pr-cut {
+  border: 3px solid var(--ink);
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pr-cut img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin: 0.5rem 0 0.8rem;
+  /* Halftone block: a poster cut is one ink, not a photograph. */
+  filter: grayscale(1) contrast(1.5) brightness(1.05);
+  mix-blend-mode: multiply;
+}
+
+.pr-cut h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 0.45rem;
+  line-height: 1.05;
+}
+
+.pr-cut a {
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-top: 0.8rem;
+}
+
+/* --- colophon --- */
+.pr-colophon {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  max-width: 64ch;
+}
+
+@media (max-width: 620px) {
+  .pr-entry {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+}
