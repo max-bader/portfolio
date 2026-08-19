@@ -1,8 +1,9 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import '../assets/styles/WorldSwitcher.css';
 
 const WORLDS = [
+  { path: '/refined', label: 'Refined', title: 'Apple-style restraint' },
   { path: '/draft', label: 'Draft', title: 'Cyanotype engineering drawing' },
   { path: '/graph', label: 'Graph', title: 'Git commit graph' },
   { path: '/board', label: 'Board', title: 'Split-flap departure board' },
@@ -28,25 +29,66 @@ const WORLDS = [
 ];
 
 /**
- * Temporary comparison control. Three committed worlds live at their own
- * routes so they can be judged side by side; this goes away once one wins.
+ * Comparison control. Collapsed to a single chip by default — at twenty-odd
+ * routes an always-open row covered the middle of every page it was meant to
+ * let you judge. Goes away once one world wins.
  */
-const WorldSwitcher = () => (
-  <nav className="world-switcher" aria-label="Design direction">
-    <span className="world-switcher-label">world</span>
-    {WORLDS.map((world) => (
-      <NavLink
-        key={world.path}
-        to={world.path}
-        title={world.title}
-        className={({ isActive }) =>
-          `world-switcher-link ${isActive ? 'is-active' : ''}`
-        }
+const WorldSwitcher = () => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const { pathname } = useLocation();
+
+  const current = WORLDS.find((w) => w.path === pathname);
+
+  // Picking a world closes the panel so it never blocks what you just chose.
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    const onClick = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('pointerdown', onClick);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('pointerdown', onClick);
+    };
+  }, [open]);
+
+  return (
+    <div className={`ws ${open ? 'is-open' : ''}`} ref={ref}>
+      {open && (
+        <div className="ws-panel" role="dialog" aria-label="Design directions">
+          <p className="ws-panel-title">{WORLDS.length} directions</p>
+          <div className="ws-grid">
+            {WORLDS.map((world) => (
+              <NavLink
+                key={world.path}
+                to={world.path}
+                title={world.title}
+                className={({ isActive }) => `ws-link ${isActive ? 'is-active' : ''}`}
+              >
+                {world.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <button
+        type="button"
+        className="ws-toggle"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
       >
-        {world.label}
-      </NavLink>
-    ))}
-  </nav>
-);
+        <span className="ws-dot" aria-hidden="true" />
+        {current ? current.label : 'Worlds'}
+        <span className="ws-caret" aria-hidden="true">{open ? '×' : '↑'}</span>
+      </button>
+    </div>
+  );
+};
 
 export default WorldSwitcher;

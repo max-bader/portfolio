@@ -25,6 +25,7 @@ import SeedWorld from './worlds/seed/SeedWorld';
 import CassetteWorld from './worlds/cassette/CassetteWorld';
 import ReceiptWorld from './worlds/receipt/ReceiptWorld';
 import RadarWorld from './worlds/radar/RadarWorld';
+import RefinedWorld from './worlds/refined/RefinedWorld';
 import { useKonamiCode } from './hooks/useKonamiCode';
 import { applyAccent, applyTheme, readStoredAccent, readStoredTheme } from './lib/theme';
 import './App.css';
@@ -87,6 +88,7 @@ function App() {
         <Route path="/cassette" element={<CassetteWorld />} />
         <Route path="/receipt" element={<ReceiptWorld />} />
         <Route path="/radar" element={<RadarWorld />} />
+        <Route path="/refined" element={<RefinedWorld />} />
         <Route path="/classic" element={<ClassicWorld />} />
         <Route path="*" element={<Navigate to="/draft" replace />} />
       </Routes>
