@@ -13,7 +13,14 @@ export default defineConfig({
   optimizeDeps: {
     // Pre-bundle up front so Vite doesn't discover these mid-session and
     // re-optimize, which leaves an already-loaded page on a stale React.
-    include: ['gsap', 'gsap/ScrollTrigger', '@gsap/react', 'react', 'react-dom'],
+    include: [
+      'gsap',
+      'gsap/ScrollTrigger',
+      'gsap/SplitText',
+      '@gsap/react',
+      'react',
+      'react-dom',
+    ],
   },
   server: {
     // Honour PORT when a host assigns one, otherwise use Vite's default.
