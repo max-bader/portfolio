@@ -1,10 +1,15 @@
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 
 // Registered once for the whole app. useGSAP is registered too so its
 // context cleanup survives StrictMode's double mount in development.
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+//
+// Every plugin ships in the free package as of 3.13, so adding one costs only
+// its bytes — which is still a cost. Nothing goes in here that the page does
+// not actually use.
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 gsap.defaults({ ease: 'power3.out', duration: 0.8 });
 
@@ -34,4 +39,4 @@ export const motionContext = (scope, build) =>
     build
   );
 
-export { gsap, useGSAP, ScrollTrigger };
+export { gsap, useGSAP, ScrollTrigger, SplitText };

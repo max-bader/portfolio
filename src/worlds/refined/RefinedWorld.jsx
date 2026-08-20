@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { gsap, motionContext, useGSAP } from '../../lib/gsap';
+import { gsap, motionContext, SplitText, useGSAP } from '../../lib/gsap';
 import { rolesNewestFirst } from '../../lib/timeline';
 import { projectsData } from '../../data/projects';
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, PAPER_URL, RESUME_URL } from '../../lib/links';
@@ -14,9 +14,37 @@ import './refined.css';
  *
  * Motion follows Emil Kowalski's rules: short, ease-out, small distances,
  * blur resolving to sharp.
+ *
+ * Two treatments, split by what the thing is. Headline type is set line by
+ * line behind a mask, because type arriving as type is the one flourish that
+ * argues for the craft rather than decorating it. Everything else — the
+ * portrait, the links, the CV entries, the work — keeps the quieter fade, so
+ * the reveal stays rare enough to mean something.
  */
 
 const ENTER = { duration: 0.45, ease: 'power2.out' };
+
+/* Masked line reveal. `mask: 'lines'` gives each line its own clipping box, so
+   this moves a transform instead of repainting a blur every frame.
+   `autoSplit` re-splits when the font lands or the column reflows, and the
+   tween returned from `onSplit` is re-synced on each of those, so a resize
+   cannot strand a half-revealed headline. `aria: 'auto'` keeps the original
+   string on the element — without it a screen reader spells out the lines. */
+const setLines = (target, vars) =>
+  SplitText.create(target, {
+    type: 'lines',
+    mask: 'lines',
+    autoSplit: true,
+    aria: 'auto',
+    onSplit: (self) =>
+      gsap.from(self.lines, {
+        yPercent: 110,
+        duration: 0.7,
+        ease: 'power3.out',
+        stagger: 0.08,
+        ...vars
+      })
+  });
 
 /* Inline icons: one 1.5px stroke, one 20px box, no icon font. */
 const Icon = ({ path, label }) => (
@@ -52,12 +80,26 @@ const RefinedWorld = () => {
       motionContext(root, (context) => {
         if (!context.conditions.motion) return;
 
-        gsap.from('.rf-enter', {
+        // The opening, sequenced by hand. A stagger across the whole header
+        // cannot express this: the name has to finish arriving before the
+        // links show up, and the split tweens carry their own durations.
+        gsap.from('.rf-avatar', { opacity: 0, y: 10, filter: 'blur(6px)', ...ENTER });
+        setLines('.rf-open h1', { delay: 0.12 });
+        setLines('.rf-standfirst', { delay: 0.26, duration: 0.6 });
+        gsap.from('.rf-action', {
           opacity: 0,
           y: 10,
           filter: 'blur(6px)',
           stagger: 0.06,
+          delay: 0.46,
           ...ENTER
+        });
+
+        // Section headings and the closer, set as they come into view.
+        gsap.utils.toArray('.rf-headline').forEach((el) => {
+          setLines(el, {
+            scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+          });
         });
 
         gsap.utils.toArray('.rf-reveal').forEach((el) => {
@@ -78,13 +120,13 @@ const RefinedWorld = () => {
     <div className="rf" ref={root}>
       {/* Identity: the portrait carries the top, not a slogan. */}
       <header className="rf-open">
-        <img className="rf-avatar rf-enter" src="/IMG_5553 copy.png" alt="Max Bader" />
-        <h1 className="rf-enter">Max Bader</h1>
-        <p className="rf-standfirst rf-enter">
+        <img className="rf-avatar" src="/IMG_5553 copy.png" alt="Max Bader" />
+        <h1>Max Bader</h1>
+        <p className="rf-standfirst">
           Computer Science at UC Irvine.
         </p>
 
-        <nav className="rf-actions rf-enter">
+        <nav className="rf-actions">
           <a className="rf-action" href={`mailto:${EMAIL}`}>
             <Icon path={ICONS.mail} />
             <span>Get in touch</span>
@@ -102,7 +144,7 @@ const RefinedWorld = () => {
 
       {/* Experience as a set CV: year, then the fact. */}
       <section className="rf-cv" id="experience">
-        <h2 className="rf-reveal">Experience</h2>
+        <h2 className="rf-headline">Experience</h2>
 
         <ol>
           {rolesNewestFirst.map((role) => (
@@ -133,7 +175,7 @@ const RefinedWorld = () => {
 
       {/* Work first — the images are the argument. */}
       <section className="rf-work" id="projects">
-        <h2 className="rf-reveal">Selected work</h2>
+        <h2 className="rf-headline">Selected work</h2>
 
         {projectsData.map((project, index) => (
           <a
@@ -161,7 +203,7 @@ const RefinedWorld = () => {
       </section>
 
       <section className="rf-cv">
-        <h2 className="rf-reveal">Research</h2>
+        <h2 className="rf-headline">Research</h2>
         <ol>
           <li className="rf-entry rf-reveal">
             <span className="rf-when">First author</span>
@@ -180,10 +222,10 @@ const RefinedWorld = () => {
         </ol>
       </section>
 
-      <footer className="rf-close rf-reveal">
-        <h2>Let&rsquo;s talk.</h2>
-        <a className="rf-mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
-        <nav className="rf-social">
+      <footer className="rf-close">
+        <h2 className="rf-headline">Let&rsquo;s talk.</h2>
+        <a className="rf-mail rf-reveal" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        <nav className="rf-social rf-reveal">
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
             <Icon path={ICONS.github} label="GitHub" />
           </a>
