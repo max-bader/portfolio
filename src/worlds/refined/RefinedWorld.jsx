@@ -81,8 +81,7 @@ const RefinedWorld = () => {
         <img className="rf-avatar rf-enter" src="/IMG_5553 copy.png" alt="Max Bader" />
         <h1 className="rf-enter">Max Bader</h1>
         <p className="rf-standfirst rf-enter">
-          Computer Science at UC Irvine. Currently a Software Engineer Intern
-          at CodeHS.
+          Computer Science at UC Irvine.
         </p>
 
         <nav className="rf-actions rf-enter">

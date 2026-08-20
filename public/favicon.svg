@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 18 18" role="img" aria-label="Document">
+  <style>path { stroke: #000000 }
+    @media (prefers-color-scheme: dark) { path { stroke: #ffffff } }</style>
+  <g fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 2.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 17.5h8a1.5 1.5 0 0 0 1.5-1.5V6.5z"/><path d="M11.5 2.5v4h4"/></g>
+</svg>

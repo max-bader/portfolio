@@ -3,18 +3,19 @@ export const experienceData = [
     id: "codehs",
     company: "CodeHS",
     role: "Software Engineer Intern",
-    date: "6/26 - Present",
+    date: "6/26 - 8/26",
     url: "https://codehs.com/",
     logo: "/codehs.webp",
-    description: "",
+    description:
+      "Built multi-tenant authentication for deployed AI-generated apps, with per-app PostgreSQL isolation via row-level security. Shipped server-side AI and secrets infrastructure, including a published npm SDK, so client-only apps could call AI models without exposing credentials. Added visual click-to-edit that maps rendered DOM back to source with the TypeScript compiler API.",
     skillsLabel: "Technologies:",
-    skills: []
+    skills: ["TypeScript", "React", "Node.js", "PostgreSQL", "OAuth 2.0 / PKCE", "Playwright"]
   },
   {
     id: "yesmedia",
     company: "YesMedia",
     role: "Software Engineer Intern",
-    date: "10/25 - 6/26",
+    date: "1/26 - 6/26",
     url: "https://yesmedia.us/",
     logo: "/yes_mediaa_logo.jpeg",
     description:
@@ -38,7 +39,7 @@ export const experienceData = [
     id: "daplab",
     company: "DapLab",
     role: "Software Developer Research Assistant",
-    date: "9/25 - 6/26",
+    date: "9/25 - 12/25",
     url: "https://daplab.education.uci.edu/",
     logo: "/daplab_uci_logo.jpeg",
     description:

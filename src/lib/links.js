@@ -1,4 +1,4 @@
-export const RESUME_URL = '/MaxBaderResume copy.pdf';
+export const RESUME_URL = '/MaxBaderResume.pdf';
 export const PAPER_URL = '/CoVeGAT (6).pdf';
 export const EMAIL = 'mibader@uci.edu';
 export const GITHUB_URL = 'https://github.com/max-bader';
