@@ -89,8 +89,8 @@ export const experienceData = [
       "Dataset Creation"
     ],
     actions: [
-      { label: "View Paper", href: "/CoVeGAT (6).pdf", variant: "btn-primary", newTab: true },
-      { label: "Download PDF", href: "/CoVeGAT (6).pdf", variant: "btn-secondary", download: true }
+      { label: "View Paper", href: "/CoVeGAT.pdf", variant: "btn-primary", newTab: true },
+      { label: "Download PDF", href: "/CoVeGAT.pdf", variant: "btn-secondary", download: true }
     ]
   }
 ];

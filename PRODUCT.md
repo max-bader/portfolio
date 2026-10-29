@@ -71,7 +71,7 @@ except the name and the plain voice.
   Developer, 5/25–12/25), Algoverse (AI Research, 3/25–7/25).
 - Four projects with real screenshots in `public/`: TradeStreet, AskHer, Zotify,
   WakeUp.
-- CoVeGAT, a first-author claim-verification paper, at `public/CoVeGAT (6).pdf`.
+- CoVeGAT, a first-author claim-verification paper, at `public/CoVeGAT.pdf`.
   Reported result: 96% detection accuracy on adversarial fabrications.
 - Resume PDF at `public/MaxBaderResume copy.pdf`; portrait at `public/IMG_5553 copy.png`.
 - Contact: mibader@uci.edu, github.com/max-bader, linkedin.com/in/max-bader.
