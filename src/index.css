@@ -6,13 +6,17 @@
 
 html {
   scroll-behavior: smooth;
+  background: #ffffff;
+}
+
+html[data-theme='dark'] {
+  background: #0b0b0d;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: #ffffff;
-  color-scheme: light;
+  background: inherit;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21,3 +25,18 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* --- appearance wipe ---
+   The browser's default cross-fade is replaced with a circle that grows out
+   of the button, animated in `lib/theme`. Both snapshots are held still here
+   so the only thing moving is the clip. The flag is set for the duration of
+   the transition and removed after, so no other view transition on the page
+   would inherit these rules. */
+html[data-wipe]::view-transition-old(root),
+html[data-wipe]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-wipe]::view-transition-old(root) { z-index: 0; }
+html[data-wipe]::view-transition-new(root) { z-index: 1; }

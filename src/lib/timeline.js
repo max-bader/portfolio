@@ -62,11 +62,19 @@ const assignLanes = (jobs) => {
 // Oldest first reads as a career, and lane packing needs sorted input.
 const chronological = [...parsed].sort((a, b) => a.start - b.start || a.end - b.end);
 
+const totalSpan = latest - earliest + 1;
+
 export const roles = assignLanes(chronological).map((job) => ({
   ...job,
   // 0..1 across the whole career, for bar geometry.
   offset: (job.start - earliest) / span,
-  extent: Math.max(0.02, (job.end - job.start) / span)
+  extent: Math.max(0.02, (job.end - job.start) / span),
+  // Inclusive of both end months, so a bar covers the cells it occupies
+  // rather than the distance between two points. This is what the chart draws.
+  x: (job.start - earliest) / totalSpan,
+  w: job.months / totalSpan,
+  // "Boundary Remote Subsurface Solutions" will not fit in a five-month bar.
+  short: job.company.split(' ')[0]
 }));
 
 /** Newest first, the order a recruiter expects to read. */
@@ -85,4 +93,18 @@ export const peakConcurrent = (() => {
     if (active > peak) peak = active;
   }
   return peak;
+})();
+
+/**
+ * Year gridlines. Only Januaries get a rule — enough to read the span without
+ * turning the plot into graph paper.
+ */
+export const axisTicks = (() => {
+  const ticks = [];
+  for (let m = earliest; m <= latest; m += 1) {
+    if (m % 12 === 0) {
+      ticks.push({ label: String(Math.floor(m / 12)), at: (m - earliest) / (latest - earliest + 1) });
+    }
+  }
+  return ticks;
 })();

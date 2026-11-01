@@ -10,9 +10,18 @@
   --line: #e5e5e7;
   --accent: #0071e3;
 
+  --sheet: #ffffff;
+  --veil: rgba(255, 255, 255, 0.72);
+  --sheen: rgba(255, 255, 255, 0.28);
+
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.05), 0 22px 55px -20px rgba(0, 0, 0, 0.28);
+  --lift: 0 24px 70px -18px rgba(0, 0, 0, 0.3);
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --gutter: clamp(1.5rem, 6vw, 6rem);
+
+  /* Appearance is the only thing on this page that changes colour, so the
+     transition is on the two properties that carry it and nothing else. */
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 
   min-height: 100vh;
   background: var(--ground);
@@ -25,7 +34,37 @@
   letter-spacing: -0.012em;
 }
 
+/* Dark. Same page, re-inked: the ground darkens, the accent brightens to hold
+   its contrast against it, and the shadow does the work the hairlines did. */
+[data-theme='dark'] .rf {
+  --ink: #f5f5f7;
+  --ink-2: #c2c2ca;
+  --grey: #8a8a92;
+  --ground: #0b0b0d;
+  --line: #26262c;
+  --accent: #4c9dff;
+
+  --sheet: #141419;
+  --veil: rgba(16, 16, 20, 0.72);
+  --sheen: rgba(255, 255, 255, 0.14);
+
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 24px 60px -22px rgba(0, 0, 0, 0.85);
+  --lift: 0 26px 80px -18px rgba(0, 0, 0, 0.9);
+}
+
 .rf a { color: inherit; text-decoration: none; }
+
+/* Visually hidden, still read aloud — the chart's bars carry a one-line
+   description that would not fit inside the bar. */
+.rf-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 /* --- opening: portrait leads, name at a human size --- */
 .rf-open {
@@ -138,21 +177,47 @@
 .rf-piece:nth-child(even) .rf-shot { order: 2; }
 
 .rf-shot {
+  position: relative;
   margin: 0;
+  aspect-ratio: 16 / 10;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform 0.28s var(--ease);
+  transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
 }
 
-.rf-piece:hover .rf-shot { transform: translateY(-4px); }
+.rf-piece:hover .rf-shot {
+  transform: translateY(-4px);
+  box-shadow: var(--lift);
+}
 
+/* Cut taller than the frame so the scroll-driven drift never runs out of
+   picture at either end of its travel. */
 .rf-shot img {
+  position: absolute;
+  inset: -8% 0;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 116%;
   object-fit: cover;
 }
+
+/* A soft highlight that sits where the cursor is. The coordinates arrive as
+   custom properties from the pointer handler; hovering is what turns it on. */
+.rf-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  background: radial-gradient(
+    16rem circle at var(--mx, 50%) var(--my, 50%),
+    var(--sheen),
+    transparent 62%
+  );
+}
+
+.rf-shot:hover .rf-sheen { opacity: 1; }
 
 .rf-num {
   display: block;
@@ -211,8 +276,19 @@
   display: grid;
   grid-template-columns: 11rem minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
-  padding: clamp(1.75rem, 3vw, 2.5rem) 0;
+  padding: clamp(1.75rem, 3vw, 2.5rem) 0.85rem;
+  margin-inline: -0.85rem;
   border-top: 1px solid var(--line);
+  border-radius: 12px;
+  transition: background-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+/* Lit from the chart above, from the list itself, or from the palette. The
+   rule on the left is the same mark the bar wears, so the two views read as
+   one thing being pointed at rather than two things reacting. */
+.rf-entry[data-lit] {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .rf-entry:last-child { border-bottom: 1px solid var(--line); }
@@ -287,14 +363,35 @@
   margin: 0 0 1.25rem;
 }
 
+.rf-mail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 2.5rem;
+}
+
 .rf-mail {
-  display: inline-block;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
   color: var(--accent);
-  margin-bottom: 2.5rem;
 }
 
 .rf-mail:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.rf-copy {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--grey);
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.rf-copy:hover { color: var(--ink); border-color: var(--ink); }
 
 .rf-social { display: flex; gap: 0.5rem; }
 
@@ -334,4 +431,428 @@
 
   .rf-when { padding-top: 0; }
   .rf-dates em { display: inline; margin-left: 0.5rem; }
+}
+
+/* ===========================================================================
+   Career chart — the range claim, drawn
+   Three lanes because three roles overlapped at the busiest month. The lane
+   count is not a layout decision; it is the number the data produced.
+   =========================================================================== */
+
+.rf-range {
+  margin: 0 0 clamp(3rem, 6vw, 4.5rem);
+}
+
+.rf-range-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(1.75rem, 5vw, 3.5rem);
+  margin: 0 0 1.75rem;
+}
+
+.rf-range-stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.rf-range-stats dd,
+.rf-range-stats dt {
+  margin: 0;
+}
+
+.rf-stat-value {
+  font-size: clamp(1.5rem, 2.4vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  /* Reserves the width of the widest count so the tick-up cannot shove the
+     label sideways on the frame the number gains a digit. */
+  min-width: 1.4ch;
+}
+
+.rf-range-stats dt {
+  font-size: 0.9375rem;
+  color: var(--grey);
+}
+
+.rf-range-plot {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding-top: 1.6rem;
+}
+
+.rf-range-lane {
+  position: relative;
+  height: 2.125rem;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--line) 65%, transparent);
+  transform-origin: left center;
+}
+
+/* Year gridline. Sits behind the bars, labelled above the plot. */
+.rf-range-rule {
+  position: absolute;
+  top: 1.6rem;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
+
+.rf-range-rule em {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  transform: translateX(-50%);
+  padding-bottom: 0.4rem;
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--grey);
+  font-variant-numeric: tabular-nums;
+}
+
+.rf-range-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.625rem;
+  border: 0;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--ink) 84%, var(--ground));
+  color: var(--ground);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: background-color 0.2s var(--ease), outline-color 0.2s var(--ease);
+  /* Outline, not transform: the entrance tween owns transform, and a hover
+     rule fighting it leaves bars stranded mid-grow. */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.rf-range-bar span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The role that is still running wears the accent, the same mark the "Now"
+   flag in the list wears. */
+.rf-range-bar[data-now] {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.rf-range-bar[data-lit] {
+  outline-color: var(--accent);
+}
+
+.rf-range-bar:focus-visible {
+  outline-color: var(--accent);
+}
+
+.rf-range-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.65rem;
+  font-size: 0.75rem;
+  color: var(--grey);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===========================================================================
+   Persistent controls
+   =========================================================================== */
+
+.rf-floats {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rf-theme,
+.rf-cmd-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--veil);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: var(--shadow);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.rf-theme { width: 2.5rem; justify-content: center; }
+.rf-cmd-open { padding: 0 0.75rem 0 0.875rem; }
+
+.rf-theme:hover,
+.rf-cmd-open:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 30%, transparent);
+}
+
+.rf-cmd-open kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--grey);
+  font: inherit;
+  font-size: 0.6875rem;
+}
+
+.rf-kbd-glyph { width: 11px; height: 11px; }
+
+/* ===========================================================================
+   Command palette
+   =========================================================================== */
+
+.rf-cmd {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  padding: clamp(3rem, 12vh, 7rem) 1rem 2rem;
+}
+
+.rf-cmd-scrim {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--ground) 45%, rgba(0, 0, 0, 0.4));
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+}
+
+.rf-cmd-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(38rem, 100%);
+  max-height: min(28rem, 68vh);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--sheet);
+  box-shadow: var(--lift);
+  text-align: left;
+}
+
+.rf-cmd-field {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--grey);
+}
+
+.rf-cmd-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: -0.012em;
+}
+
+.rf-cmd-field input:focus { outline: none; }
+.rf-cmd-field input::placeholder { color: var(--grey); }
+
+.rf-cmd-esc {
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--grey);
+  font: inherit;
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.rf-cmd-esc:hover { color: var(--ink); }
+
+.rf-cmd-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+  overscroll-behavior: contain;
+}
+
+.rf-cmd-group {
+  margin: 0.65rem 0 0.3rem;
+  padding: 0 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+.rf-cmd-group:first-child { margin-top: 0.15rem; }
+
+.rf-cmd-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* The row under the keyboard cursor and the row under the pointer are the
+   same row — the pointer moves the cursor rather than lighting a second one,
+   so there is never a question about what Enter would do. */
+.rf-cmd-row[data-active='true'] {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--ink);
+}
+
+.rf-cmd-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.rf-cmd-hint {
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--grey);
+}
+
+.rf-cmd-enter {
+  flex-shrink: 0;
+  opacity: 0;
+  color: var(--accent);
+}
+
+.rf-cmd-row[data-active='true'] .rf-cmd-enter { opacity: 1; }
+
+.rf-cmd-empty {
+  margin: 0;
+  padding: 1.5rem 0.6rem;
+  color: var(--grey);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.rf-cmd-foot {
+  display: flex;
+  gap: 1.1rem;
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--grey);
+  font-size: 0.75rem;
+}
+
+.rf-cmd-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.rf-cmd-foot kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.15rem;
+  padding: 0.1rem 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.6875rem;
+}
+
+/* ===========================================================================
+   Reading progress and confirmations
+   =========================================================================== */
+
+.rf-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 2px;
+  pointer-events: none;
+}
+
+.rf-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.rf-toast-slot {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 70;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.rf-toast {
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--sheet);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 52rem) {
+  /* Company names do not survive a five-month bar on a phone; the bars still
+     carry the shape, and the list underneath carries the names. */
+  .rf-range-bar span { display: none; }
+  .rf-range-lane { height: 1.75rem; }
+
+  .rf-cmd-open span { display: none; }
+  .rf-cmd-open { padding: 0 0.75rem; }
+  .rf-cmd-foot { display: none; }
 }

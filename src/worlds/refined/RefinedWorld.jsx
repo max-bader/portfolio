@@ -1,8 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { gsap, motionContext, SplitText, useGSAP } from '../../lib/gsap';
 import { rolesNewestFirst } from '../../lib/timeline';
 import { projectsData } from '../../data/projects';
 import { EMAIL, GITHUB_URL, LINKEDIN_URL, PAPER_URL, RESUME_URL } from '../../lib/links';
+import Icon from '../../components/Icon';
+import { ICONS } from '../../lib/icons';
+import CareerChart from '../../components/CareerChart';
+import CommandPalette from '../../components/CommandPalette';
+import ScrollProgress from '../../components/ScrollProgress';
+import ThemeToggle from '../../components/ThemeToggle';
+import Toast from '../../components/Toast';
+import { notify } from '../../lib/toast';
 import './refined.css';
 
 /**
@@ -20,6 +28,11 @@ import './refined.css';
  * argues for the craft rather than decorating it. Everything else — the
  * portrait, the links, the CV entries, the work — keeps the quieter fade, so
  * the reveal stays rare enough to mean something.
+ *
+ * The rest of the motion here answers to the pointer or to the data, never to
+ * a timer: the chart and the CV are one linked view, the screenshots drift
+ * against their frames at the rate the page is scrolled, and the links lean
+ * the few pixels that make a flat page feel physical.
  */
 
 const ENTER = { duration: 0.45, ease: 'power2.out' };
@@ -46,34 +59,74 @@ const setLines = (target, vars) =>
       })
   });
 
-/* Inline icons: one 1.5px stroke, one 20px box, no icon font. */
-const Icon = ({ path, label }) => (
-  <svg
-    className="rf-icon"
-    viewBox="0 0 20 20"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden={label ? undefined : 'true'}
-    role={label ? 'img' : undefined}
-  >
-    {label && <title>{label}</title>}
-    {path}
-  </svg>
-);
+/* Elements lean towards the cursor and spring back when it leaves. The travel
+   is a fraction of the distance to the centre, so nothing ever detaches from
+   where it is supposed to sit — it is the difference between a target that
+   acknowledges the pointer and one that chases it. */
+const magnetise = (elements, strength) => {
+  const undo = [];
 
-const ICONS = {
-  mail: <><rect x="2.5" y="4.5" width="15" height="11" rx="2" /><path d="m3 6 7 5 7-5" /></>,
-  github: <path d="M7.5 16.5c-3.5 1-3.5-1.8-5-2.2m10 4.2v-2.8c0-.8-.2-1.4-.7-1.8 2.3-.3 4.7-1.1 4.7-5a3.9 3.9 0 0 0-1-2.7 3.6 3.6 0 0 0-.1-2.7s-.9-.3-2.9 1a10 10 0 0 0-5 0C5.5 3.2 4.6 3.5 4.6 3.5a3.6 3.6 0 0 0-.1 2.7 3.9 3.9 0 0 0-1 2.7c0 3.9 2.4 4.7 4.7 5-.3.3-.6.8-.7 1.5v3.1" />,
-  linkedin: <><rect x="3" y="3" width="14" height="14" rx="2.5" /><path d="M6.5 8.5v5M6.5 6v.01M10 13.5v-3a1.8 1.8 0 0 1 3.5 0v3" /></>,
-  doc: <><path d="M11.5 2.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 17.5h8a1.5 1.5 0 0 0 1.5-1.5V6.5z" /><path d="M11.5 2.5v4h4" /></>,
-  arrow: <path d="M4.5 10h11M11 5.5 15.5 10 11 14.5" />
+  elements.forEach((el) => {
+    const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });
+    const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' });
+
+    const follow = (event) => {
+      const box = el.getBoundingClientRect();
+      xTo((event.clientX - (box.left + box.width / 2)) * strength);
+      yTo((event.clientY - (box.top + box.height / 2)) * strength);
+    };
+    const release = () => {
+      xTo(0);
+      yTo(0);
+    };
+
+    el.addEventListener('pointermove', follow);
+    el.addEventListener('pointerleave', release);
+    undo.push(() => {
+      el.removeEventListener('pointermove', follow);
+      el.removeEventListener('pointerleave', release);
+    });
+  });
+
+  return () => undo.forEach((fn) => fn());
+};
+
+/* Where the cursor is, as a percentage of the card, for the sheen the CSS
+   draws over the screenshot. Written straight to custom properties: this runs
+   on every pointer move, and a tween would only add lag to a value that is
+   already a direct reading of the pointer. */
+const trackPointer = (elements) => {
+  const undo = [];
+
+  elements.forEach((el) => {
+    const follow = (event) => {
+      const box = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${((event.clientX - box.left) / box.width) * 100}%`);
+      el.style.setProperty('--my', `${((event.clientY - box.top) / box.height) * 100}%`);
+    };
+
+    el.addEventListener('pointermove', follow);
+    undo.push(() => el.removeEventListener('pointermove', follow));
+  });
+
+  return () => undo.forEach((fn) => fn());
 };
 
 const RefinedWorld = () => {
   const root = useRef(null);
+  const [lit, setLit] = useState(null);
+  const flash = useRef(0);
+
+  /* One role at a time is "the one being looked at", whether that came from
+     the chart, the list, or the palette. Pointer sources clear themselves;
+     the palette sets a lamp that has to time out. */
+  const highlightRole = useCallback((id) => {
+    setLit(id);
+    clearTimeout(flash.current);
+    flash.current = setTimeout(() => setLit(null), 1800);
+  }, []);
+
+  useEffect(() => () => clearTimeout(flash.current), []);
 
   useGSAP(
     () => {
@@ -111,13 +164,56 @@ const RefinedWorld = () => {
             scrollTrigger: { trigger: el, start: 'top 92%', once: true }
           });
         });
+
+        // Screenshots drift against their frames while the card crosses the
+        // viewport. The image is cut oversize in CSS so the frame is never
+        // short of picture at either end of the travel.
+        gsap.utils.toArray('.rf-shot').forEach((frame) => {
+          gsap.fromTo(
+            frame.querySelector('img'),
+            { yPercent: -5 },
+            {
+              yPercent: 5,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: frame.closest('.rf-piece'),
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+              }
+            }
+          );
+        });
+
+        // Pointer work is for pointers. On touch it would only fire once, on
+        // tap, and leave the element stranded off-centre.
+        if (!window.matchMedia('(pointer: fine)').matches) return undefined;
+
+        const teardown = [
+          magnetise(gsap.utils.toArray('.rf-action'), 0.28),
+          magnetise(gsap.utils.toArray('.rf-social a'), 0.35),
+          trackPointer(gsap.utils.toArray('.rf-shot'))
+        ];
+
+        return () => teardown.forEach((fn) => fn());
       });
     },
     { scope: root }
   );
 
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      notify(`Copied ${EMAIL}`);
+    } catch {
+      notify('Copy blocked — select the address instead');
+    }
+  };
+
   return (
     <div className="rf" ref={root}>
+      <ScrollProgress />
+
       {/* Identity: the portrait carries the top, not a slogan. */}
       <header className="rf-open">
         <img className="rf-avatar" src="/IMG_5553 copy.png" alt="Max Bader" />
@@ -142,13 +238,24 @@ const RefinedWorld = () => {
         </nav>
       </header>
 
-      {/* Experience as a set CV: year, then the fact. */}
+      {/* Experience as a set CV: year, then the fact. The chart above it is
+          the same six rows read sideways, so the concurrency the list flattens
+          is visible before the reading starts. */}
       <section className="rf-cv" id="experience">
         <h2 className="rf-headline">Experience</h2>
 
+        <CareerChart focused={lit} onFocus={setLit} onSelect={highlightRole} />
+
         <ol>
           {rolesNewestFirst.map((role) => (
-            <li className="rf-entry rf-reveal" key={role.id}>
+            <li
+              className="rf-entry rf-reveal"
+              key={role.id}
+              id={`role-${role.id}`}
+              data-lit={lit === role.id || undefined}
+              onPointerEnter={() => setLit(role.id)}
+              onPointerLeave={() => setLit(null)}
+            >
               <span className="rf-when">
                 <span className="rf-dates">
                   {role.date}
@@ -187,6 +294,7 @@ const RefinedWorld = () => {
           >
             <figure className="rf-shot">
               <img src={`/${project.image}`} alt="" loading="lazy" />
+              <span className="rf-sheen" aria-hidden="true" />
             </figure>
             <div className="rf-piece-text">
               <span className="rf-num">{String(index + 1).padStart(2, '0')}</span>
@@ -202,7 +310,7 @@ const RefinedWorld = () => {
         ))}
       </section>
 
-      <section className="rf-cv">
+      <section className="rf-cv" id="research">
         <h2 className="rf-headline">Research</h2>
         <ol>
           <li className="rf-entry rf-reveal">
@@ -222,9 +330,14 @@ const RefinedWorld = () => {
         </ol>
       </section>
 
-      <footer className="rf-close">
+      <footer className="rf-close" id="contact">
         <h2 className="rf-headline">Let&rsquo;s talk.</h2>
-        <a className="rf-mail rf-reveal" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        <p className="rf-mail-row rf-reveal">
+          <a className="rf-mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          <button type="button" className="rf-copy" onClick={copyEmail} title="Copy address">
+            <Icon path={ICONS.copy} label="Copy email address" />
+          </button>
+        </p>
         <nav className="rf-social rf-reveal">
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
             <Icon path={ICONS.github} label="GitHub" />
@@ -237,6 +350,14 @@ const RefinedWorld = () => {
           </a>
         </nav>
       </footer>
+
+      {/* Persistent controls, out of the reading column. */}
+      <div className="rf-floats">
+        <ThemeToggle />
+        <CommandPalette onHighlightRole={highlightRole} />
+      </div>
+
+      <Toast />
     </div>
   );
 };
